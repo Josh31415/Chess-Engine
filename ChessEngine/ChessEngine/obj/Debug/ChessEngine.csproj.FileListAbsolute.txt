@@ -1,0 +1,14 @@
+c:\users\josh-pc\documents\visual studio 2015\Projects\ChessEngine\ChessEngine\bin\Debug\ChessEngine.exe.config
+c:\users\josh-pc\documents\visual studio 2015\Projects\ChessEngine\ChessEngine\bin\Debug\ChessEngine.exe
+c:\users\josh-pc\documents\visual studio 2015\Projects\ChessEngine\ChessEngine\bin\Debug\ChessEngine.pdb
+c:\users\josh-pc\documents\visual studio 2015\Projects\ChessEngine\ChessEngine\obj\Debug\MainWindow.g.cs
+c:\users\josh-pc\documents\visual studio 2015\Projects\ChessEngine\ChessEngine\obj\Debug\App.g.cs
+c:\users\josh-pc\documents\visual studio 2015\Projects\ChessEngine\ChessEngine\obj\Debug\ChessEngine_MarkupCompile.cache
+c:\users\josh-pc\documents\visual studio 2015\Projects\ChessEngine\ChessEngine\obj\Debug\ChessEngine_MarkupCompile.lref
+c:\users\josh-pc\documents\visual studio 2015\Projects\ChessEngine\ChessEngine\obj\Debug\MainWindow.baml
+c:\users\josh-pc\documents\visual studio 2015\Projects\ChessEngine\ChessEngine\obj\Debug\ChessEngine.g.resources
+c:\users\josh-pc\documents\visual studio 2015\Projects\ChessEngine\ChessEngine\obj\Debug\ChessEngine.Properties.Resources.resources
+c:\users\josh-pc\documents\visual studio 2015\Projects\ChessEngine\ChessEngine\obj\Debug\ChessEngine.csproj.GenerateResource.Cache
+c:\users\josh-pc\documents\visual studio 2015\Projects\ChessEngine\ChessEngine\obj\Debug\ChessEngine.exe
+c:\users\josh-pc\documents\visual studio 2015\Projects\ChessEngine\ChessEngine\obj\Debug\ChessEngine.pdb
+C:\Users\josh-pc\documents\visual studio 2015\Projects\ChessEngine\ChessEngine\obj\Debug\ChessEngine.csprojResolveAssemblyReference.cache
