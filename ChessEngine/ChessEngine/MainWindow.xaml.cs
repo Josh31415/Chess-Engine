@@ -17,22 +17,34 @@ namespace ChessEngine
     {
 
         private string type;
-        private string color;
+        private bool color;
         private string id;
+        private int pieceValue;
         private Image pieceIm;
         
 
-        public Piece(string piecetype, string piececolor, string pieceid)
+        public Piece(string piecetype, bool piececolor, string pieceid, int val)
         {
             type = piecetype;
             color = piececolor;
             pieceIm = pieceImage();
             id = pieceid;
+            pieceValue = val;
         }
 
         private Image pieceImage()
         {
-            string im = type + "-" + color;
+            string pclol;
+
+            if (color)
+            {
+                pclol = "white";
+            }
+            else
+            {
+                pclol = "black";
+            }
+            string im = type + "-" + pclol;
             Image tempIm = MainWindow.CreatePiece(im, 0);
             tempIm.AllowDrop = true;
             return tempIm;
@@ -44,7 +56,7 @@ namespace ChessEngine
             set { type = value; }
         }
 
-        public string Color
+        public bool Color
         {
             get { return color; }
             set { color = value; }
@@ -54,6 +66,12 @@ namespace ChessEngine
         {
             get { return id; }
             set { id = value; }
+        }
+
+        public int Value
+        {
+            get { return pieceValue; }
+            set { pieceValue = value; }
         }
 
         public Image PieceImage
@@ -92,41 +110,41 @@ namespace ChessEngine
 
         public void SetupBoard()
         {
-            piece.Add(new Piece("rook", "black", "rbk"));
-            piece.Add(new Piece("knight", "black", "nbk"));
-            piece.Add(new Piece("bishop", "black", "bbk"));
-            piece.Add(new Piece("king", "black", "kb"));
-            piece.Add(new Piece("queen", "black", "qb"));
-            piece.Add(new Piece("bishop", "black", "bbq"));
-            piece.Add(new Piece("knight", "black", "nbq"));
-            piece.Add(new Piece("rook", "black", "rbq"));
+            piece.Add(new Piece("rook", false, "rbk", 5));
+            piece.Add(new Piece("knight", false, "nbk", 3));
+            piece.Add(new Piece("bishop", false, "bbk", 4));
+            piece.Add(new Piece("king", false, "kb", 10));
+            piece.Add(new Piece("queen", false, "qb", 9));
+            piece.Add(new Piece("bishop", false, "bbq", 4));
+            piece.Add(new Piece("knight", false, "nbq", 3));
+            piece.Add(new Piece("rook", false, "rbq", 5));
 
-            piece.Add(new Piece("pawn", "black", "pba"));
-            piece.Add(new Piece("pawn", "black", "pbb"));
-            piece.Add(new Piece("pawn", "black", "pbc"));
-            piece.Add(new Piece("pawn", "black", "pbd"));
-            piece.Add(new Piece("pawn", "black", "pbe"));
-            piece.Add(new Piece("pawn", "black", "pbf"));
-            piece.Add(new Piece("pawn", "black", "pbg"));
-            piece.Add(new Piece("pawn", "black", "pbh"));
+            piece.Add(new Piece("pawn", false, "pba", 1));
+            piece.Add(new Piece("pawn", false, "pbb", 1));
+            piece.Add(new Piece("pawn", false, "pbc", 1));
+            piece.Add(new Piece("pawn", false, "pbd", 1));
+            piece.Add(new Piece("pawn", false, "pbe", 1));
+            piece.Add(new Piece("pawn", false, "pbf", 1));
+            piece.Add(new Piece("pawn", false, "pbg", 1));
+            piece.Add(new Piece("pawn", false, "pbh", 1));
 
-            piece.Add(new Piece("rook", "white", "rwk"));
-            piece.Add(new Piece("knight", "white", "nwk"));
-            piece.Add(new Piece("bishop", "white", "bwk"));
-            piece.Add(new Piece("king", "white", "kw"));
-            piece.Add(new Piece("queen", "white", "qw"));
-            piece.Add(new Piece("bishop", "white", "bbw"));
-            piece.Add(new Piece("knight", "white", "nbw"));
-            piece.Add(new Piece("rook", "white", "rbw"));
+            piece.Add(new Piece("rook", true, "rwk", 5));
+            piece.Add(new Piece("knight", true, "nwk", 3));
+            piece.Add(new Piece("bishop", true, "bwk", 4));
+            piece.Add(new Piece("king", true, "kw", 10));
+            piece.Add(new Piece("queen", true, "qw", 9));
+            piece.Add(new Piece("bishop", true, "bbw", 4));
+            piece.Add(new Piece("knight", true, "nbw", 3));
+            piece.Add(new Piece("rook", true, "rbw", 5));
 
-            piece.Add(new Piece("pawn", "white", "pba"));
-            piece.Add(new Piece("pawn", "white", "pbb"));
-            piece.Add(new Piece("pawn", "white", "pbc"));
-            piece.Add(new Piece("pawn", "white", "pbd"));
-            piece.Add(new Piece("pawn", "white", "pbe"));
-            piece.Add(new Piece("pawn", "white", "pbf"));
-            piece.Add(new Piece("pawn", "white", "pbg"));
-            piece.Add(new Piece("pawn", "white", "pbh"));
+            piece.Add(new Piece("pawn", true, "pba", 1));
+            piece.Add(new Piece("pawn", true, "pbb", 1));
+            piece.Add(new Piece("pawn", true, "pbc", 1));
+            piece.Add(new Piece("pawn", true, "pbd", 1));
+            piece.Add(new Piece("pawn", true, "pbe", 1));
+            piece.Add(new Piece("pawn", true, "pbf", 1));
+            piece.Add(new Piece("pawn", true, "pbg", 1));
+            piece.Add(new Piece("pawn", true, "pbh", 1));
 
             for(int i = 0; i < 32; i++)
             {
