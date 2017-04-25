@@ -9,33 +9,11 @@
 
     <Grid>
         <Label Foreground="White"/>
-        <Grid x:Name="ChessBoard" Margin="40,30,40,30" Height="500" Width="500" HorizontalAlignment="Left">
-            <Grid.Background>
+        <Canvas x:Name="ChessBoard" Margin="40,30,40,30" Height="500" Width="500" HorizontalAlignment="Left">
+            <Canvas.Background>
                 <ImageBrush ImageSource="chessboard2.png" Stretch="UniformToFill"/>
-            </Grid.Background>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition x:Name="ca" Width="62"/>
-                <ColumnDefinition x:Name="cb" Width="62"/>
-                <ColumnDefinition x:Name="cc" Width="62"/>
-                <ColumnDefinition x:Name="cd" Width="62"/>
-                <ColumnDefinition x:Name="ce" Width="62"/>
-                <ColumnDefinition x:Name="cf" Width="62"/>
-                <ColumnDefinition x:Name="cg" Width="62"/>
-                <ColumnDefinition x:Name="ch" Width="62"/>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition x:Name="ra" Height="62"/>
-                <RowDefinition x:Name="rb" Height="62"/>
-                <RowDefinition x:Name="rc" Height="62"/>
-                <RowDefinition x:Name="rd" Height="62"/>
-                <RowDefinition x:Name="re" Height="62"/>
-                <RowDefinition x:Name="rf" Height="62"/>
-                <RowDefinition x:Name="rg" Height="62"/>
-                <RowDefinition x:Name="rh" Height="62"/>
-            </Grid.RowDefinitions>
-           
-        </Grid>
-        
+            </Canvas.Background>
+        </Canvas>
     </Grid>
 
 </Window>
