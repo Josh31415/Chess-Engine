@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 
@@ -13,12 +14,14 @@ namespace ChessEngine
         private bool color;
         private string id;
         private int pieceValue;
+        private Point point;
         private Image pieceIm;
 
         public Piece(bool piececolor, string pieceid)
         {
             Color = piececolor;
             Id = pieceid;
+            Location = new Point(0, 0);
         }
 
         public Piece()
@@ -48,6 +51,12 @@ namespace ChessEngine
         {
             get { return pieceIm; }
             set { pieceIm = value; }
+        }
+
+        public Point Location
+        {
+            get { return point; }
+            set { point = value; }
         }
 
         public Image getImageName(string type)

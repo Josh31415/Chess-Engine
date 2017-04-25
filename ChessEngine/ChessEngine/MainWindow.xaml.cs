@@ -13,11 +13,9 @@ namespace ChessEngine
     /// 
     public partial class MainWindow : Window
     {
-        Image[] pieces = new Image[32];
         Piece[] piece = new Piece[32];
 
-        Point pos;
-        private Control boardControl;
+        private Point position;
         private Point previousLocation;
 
         int gridCol = 0;
@@ -62,33 +60,41 @@ namespace ChessEngine
             piece[30] = new Pawn(true, "pbg");
             piece[31] = new Pawn(true, "pbh");
 
-            Canvas.SetLeft(piece[0].PieceImage, 5);
-            Canvas.SetTop(piece[0].PieceImage, 5);
-
-            ChessBoard.Children.Add(piece[0].PieceImage);
-            // ChessBoard.Children.
-            /*
-            for(int i = 0; i < 32; i++)
-            {
-                ChessBoard.Children.Add(piece[i].PieceImage);
-            }
-            
-            for(int i = 0; i < 8; i++)
-            {
-                Grid.SetColumn(piece[i].PieceImage, i);
-            }
+            // Adds the black home row to the board
             for (int i = 0; i < 8; i++)
             {
-                Grid.SetRow(piece[i].PieceImage, 0);
+                Canvas.SetLeft(piece[i].PieceImage, (i * 63));
+                Canvas.SetTop(piece[i].PieceImage, 0);
+
+                ChessBoard.Children.Add(piece[i].PieceImage);
             }
 
-            for (int i = 8; i < 16; i++) Grid.SetColumn(piece[i].PieceImage, (i - 8));
-            for (int i = 8; i < 16; i++) Grid.SetRow(piece[i].PieceImage, 1);
-            for (int i = 24; i < 32; i++) Grid.SetColumn(piece[i].PieceImage, (i - 24));
-            for (int i = 24; i < 32; i++) Grid.SetRow(piece[i].PieceImage, 6);
-            for (int i = 16; i < 24; i++) Grid.SetColumn(piece[i].PieceImage, (i - 16));
-            for (int i = 16; i < 24; i++) Grid.SetRow(piece[i].PieceImage, 7);
-            */
+            // Adds the black pawns to the board
+            for (int i = 0; i < 8; i++)
+            {
+                Canvas.SetLeft(piece[i + 8].PieceImage, (i * 63));
+                Canvas.SetTop(piece[i + 8].PieceImage, 63);
+
+                ChessBoard.Children.Add(piece[i + 8].PieceImage);
+            }
+
+            // Adds the white home row to the board
+            for (int i = 0; i < 8; i++)
+            {
+                Canvas.SetLeft(piece[i + 16].PieceImage, (i * 63));
+                Canvas.SetTop(piece[i + 16].PieceImage, (63 * 7));
+
+                ChessBoard.Children.Add(piece[i + 16].PieceImage);
+            }
+
+            // Adds the White pawns to the board
+            for (int i = 0; i < 8; i++)
+            {
+                Canvas.SetLeft(piece[i + 24].PieceImage, (i * 63));
+                Canvas.SetTop(piece[i + 24].PieceImage, (63 * 6));
+
+                ChessBoard.Children.Add(piece[i + 24].PieceImage);
+            }
         }
 
         public MainWindow()
