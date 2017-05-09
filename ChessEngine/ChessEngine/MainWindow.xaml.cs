@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Windows.Controls;
 using System;
 using System.Windows.Media;
+using System.Timers;
 
 namespace ChessEngine
 {
@@ -17,10 +18,7 @@ namespace ChessEngine
 
         private Point position;
         private Point previousLocation;
-
-        int gridCol = 0;
-        int gridRow = 0;
-        bool captured = false;
+        private int index;
 
         public void SetupBoard()
         {
@@ -63,37 +61,50 @@ namespace ChessEngine
             // Adds the black home row to the board
             for (int i = 0; i < 8; i++)
             {
-                Canvas.SetLeft(piece[i].PieceImage, (i * 63));
-                Canvas.SetTop(piece[i].PieceImage, 0);
+                piece[i].Location = new Point(i, 0);
 
+                Point p = piece[i].locationOnBoard();
+
+                Canvas.SetLeft(piece[i].PieceImage, p.X);
+                Canvas.SetTop(piece[i].PieceImage, p.Y);
+                
                 ChessBoard.Children.Add(piece[i].PieceImage);
             }
 
             // Adds the black pawns to the board
-            for (int i = 0; i < 8; i++)
+            for (int i = 8; i < 16; i++)
             {
-                Canvas.SetLeft(piece[i + 8].PieceImage, (i * 63));
-                Canvas.SetTop(piece[i + 8].PieceImage, 63);
+                piece[i].Location = new Point(i - 8, 1);
+                Point p = piece[i].locationOnBoard();
 
-                ChessBoard.Children.Add(piece[i + 8].PieceImage);
+                Canvas.SetLeft(piece[i].PieceImage, p.X);
+                Canvas.SetTop(piece[i].PieceImage, p.Y);
+
+                ChessBoard.Children.Add(piece[i].PieceImage);
             }
 
             // Adds the white home row to the board
-            for (int i = 0; i < 8; i++)
+            for (int i = 16; i < 24; i++)
             {
-                Canvas.SetLeft(piece[i + 16].PieceImage, (i * 63));
-                Canvas.SetTop(piece[i + 16].PieceImage, (63 * 7));
+                piece[i].Location = new Point(i - 16, 7);
+                Point p = piece[i].locationOnBoard();
 
-                ChessBoard.Children.Add(piece[i + 16].PieceImage);
+                Canvas.SetLeft(piece[i].PieceImage, p.X);
+                Canvas.SetTop(piece[i].PieceImage, p.Y);
+
+                ChessBoard.Children.Add(piece[i].PieceImage);
             }
 
             // Adds the White pawns to the board
-            for (int i = 0; i < 8; i++)
+            for (int i = 24; i < 32; i++)
             {
-                Canvas.SetLeft(piece[i + 24].PieceImage, (i * 63));
-                Canvas.SetTop(piece[i + 24].PieceImage, (63 * 6));
+                piece[i].Location = new Point(i - 24, 6);
+                Point p = piece[i].locationOnBoard();
 
-                ChessBoard.Children.Add(piece[i + 24].PieceImage);
+                Canvas.SetLeft(piece[i].PieceImage, p.X);
+                Canvas.SetTop(piece[i].PieceImage, p.Y);
+
+                ChessBoard.Children.Add(piece[i].PieceImage);
             }
         }
 
@@ -101,71 +112,75 @@ namespace ChessEngine
         {
             InitializeComponent();
             SetupBoard();
-
-            ChessBoard.AllowDrop = true;
-            piece[0].PieceImage.AllowDrop = true;
-
-            piece[0].PieceImage.DragEnter += piece_DragEnter;
-            piece[0].PieceImage.MouseLeftButtonDown += new MouseButtonEventHandler(piece_MouseDown);
-            piece[0].PieceImage.PreviewMouseLeftButtonUp += new MouseButtonEventHandler(piece_MouseLeave);
-            piece[0].PieceImage.MouseEnter += new MouseEventHandler(piece_MouseEnter);
-            piece[0].PieceImage.MouseLeave += new MouseEventHandler(piece_MouseR);
-        }
-
-        void piece_MouseEnter(object sender, MouseEventArgs e)
-        {
-            Mouse.OverrideCursor = Cursors.Hand;
-        }
-
-        void piece_MouseR(object sender, MouseEventArgs e)
-        {
-            Mouse.OverrideCursor = Cursors.Arrow;
-        }
-
-        void piece_MouseDown(object sender, MouseEventArgs e)
-        {
-            Point p = e.GetPosition(ChessBoard);
-            Console.WriteLine("Down");
-            Console.WriteLine(p.X.ToString());
-            Console.WriteLine(p.X.ToString());
-
-            DataObject data = new DataObject(typeof(ImageSource), piece[0].PieceImage.Source);
-
-            int top = Canvas.GetZIndex(piece[0].PieceImage);
-            foreach (Image child in ChessBoard.Children)
-            {
-                if (top < Canvas.GetZIndex(child)) top = Canvas.GetZIndex(child);
-            }
-
-            Canvas.SetZIndex(piece[0].PieceImage, top + 1);
-            captured = true;
-            DragDrop.DoDragDrop(piece[0].PieceImage, data, DragDropEffects.Move);
-        }
-
-        void piece_DragEnter(object sender, DragEventArgs e)
-        {
-            //Console.WriteLine(e.Data.GetData.pos.ToString());
-            if (captured)
-            {
-                Console.WriteLine("Enter");
-                Point p = e.GetPosition(ChessBoard);
-                Console.Write(p.X.ToString(), ",", p.Y.ToString());
-                Canvas.SetTop(piece[0].PieceImage, p.Y);
-                Canvas.SetLeft(piece[0].PieceImage, p.X);
-            }
             
-            //ChessBoard.Children.Add(piece[0].PieceImage);
+            for(int i = 0; i < 32; i++) piece[i].PieceImage.AllowDrop = true;
         }
 
-        void piece_MouseLeave(object sender, MouseEventArgs e)
+        public int findPiece(Point p)
         {
-            Console.WriteLine("Leave");
-            Point p = e.GetPosition(ChessBoard);
-            Console.Write(p.X.ToString(), ",", p.Y.ToString());
+            for(int i = 0; i < 32; i++)
+            {
+                /*
+                Console.WriteLine(i);
+                Console.WriteLine(piece[i].locationOnBoard());
+                Console.WriteLine(Math.Abs(piece[i].locationOnBoard().X - p.Y));
+                Console.WriteLine(Math.Abs(piece[i].locationOnBoard().Y - p.Y));
+                Console.WriteLine();
+                */
+                if (Math.Abs(piece[i].locationOnBoard().X - p.X) < 63 && Math.Abs(piece[i].locationOnBoard().Y - p.Y) < 63)
+                {
+                    return i;
+                }
+            }
 
-            captured = false;
+            return -1;
         }
 
+        protected override void OnMouseDown(MouseButtonEventArgs e)
+        {
+            base.OnMouseDown(e);
+            Point p = e.GetPosition(ChessBoard);
+            Console.WriteLine("down");
+            int index = findPiece(p);
+            Console.WriteLine(index);
+        }
 
+        protected override void OnMouseMove(MouseEventArgs e)
+        {
+            base.OnMouseMove(e);
+           
+            if (e.LeftButton == MouseButtonState.Pressed && index != -1)
+            {
+                //Console.WriteLine("move");
+                Point p = e.GetPosition(ChessBoard);
+
+                int top = Canvas.GetZIndex(piece[index].PieceImage);
+                foreach (Image child in ChessBoard.Children)
+                {
+                    if (top < Canvas.GetZIndex(child)) top = Canvas.GetZIndex(child);
+                }
+
+                //Console.WriteLine(p.X.ToString(), ",", p.Y.ToString());
+                Canvas.SetTop(piece[index].PieceImage, p.Y);
+                Canvas.SetLeft(piece[index].PieceImage, p.X);
+
+                Canvas.SetZIndex(piece[index].PieceImage, top + 1);
+                // Inititate the drag-and-drop operation.
+               // DragDrop.DoDragDrop(this, data, DragDropEffects.Move);
+            }
+        }
+
+        protected override void OnMouseLeftButtonUp(MouseButtonEventArgs e)
+        {
+            base.OnMouseLeftButtonUp(e);
+            piece[index].snapToBoard(e.GetPosition(ChessBoard));
+            Point p = piece[index].locationOnBoard();
+
+            Canvas.SetLeft(piece[index].PieceImage, p.X);
+            Canvas.SetTop(piece[index].PieceImage, p.Y);
+
+            index = -1;
+            Console.WriteLine("Leave");
+        }
     }
 }

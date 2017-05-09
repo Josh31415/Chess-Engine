@@ -9,7 +9,7 @@ using System.Windows.Media.Imaging;
 
 namespace ChessEngine
 {
-    class Piece
+    abstract class Piece
     {
         private bool color;
         private string id;
@@ -81,6 +81,36 @@ namespace ChessEngine
             im.Source = new BitmapImage(new Uri(name, UriKind.RelativeOrAbsolute));
 
             return im;
+        }
+
+        public void snapToBoard(Point location)
+        {
+            Point p;
+            int x =(int) location.X / 63;
+            int y = (int)location.X / 63;
+
+            p = new Point(x, y);
+            this.Location = p;
+        }
+
+        public Point locationOnBoard(Point location)
+        {
+            Point p = new Point();
+
+            p.X = location.X * 63;
+            p.Y = location.Y * 63;
+
+            return p;
+        }
+
+        public Point locationOnBoard()
+        {
+            Point p = new Point();
+
+            p.X = this.Location.X * 63;
+            p.Y = this.Location.Y * 63;
+
+            return p;
         }
 
     }

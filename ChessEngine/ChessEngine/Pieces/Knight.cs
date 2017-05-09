@@ -14,6 +14,7 @@ namespace ChessEngine
             Id = pieceid;
             PieceImage = getImageName("knight");
             Value = 3;
+
         }
     }
 }
