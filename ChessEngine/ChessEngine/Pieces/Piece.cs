@@ -87,7 +87,7 @@ namespace ChessEngine
         {
             Point p;
             int x =(int) location.X / 63;
-            int y = (int)location.X / 63;
+            int y = (int)location.Y / 63;
 
             p = new Point(x, y);
             this.Location = p;

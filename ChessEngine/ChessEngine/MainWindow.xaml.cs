@@ -127,9 +127,15 @@ namespace ChessEngine
                 Console.WriteLine(Math.Abs(piece[i].locationOnBoard().Y - p.Y));
                 Console.WriteLine();
                 */
-                if (Math.Abs(piece[i].locationOnBoard().X - p.X) < 63 && Math.Abs(piece[i].locationOnBoard().Y - p.Y) < 63)
+                int xError = (int) (p.X - piece[i].locationOnBoard().X);
+                int yError = (int)(p.Y - piece[i].locationOnBoard().Y);
+
+                if ( xError < 63 && yError < 63)
                 {
-                    return i;
+                    if (xError > 0 && yError > 0)
+                    {
+                        return i;
+                    }
                 }
             }
 
@@ -140,8 +146,9 @@ namespace ChessEngine
         {
             base.OnMouseDown(e);
             Point p = e.GetPosition(ChessBoard);
+            Console.WriteLine(p);
             Console.WriteLine("down");
-            int index = findPiece(p);
+            index = findPiece(p);
             Console.WriteLine(index);
         }
 
@@ -151,7 +158,6 @@ namespace ChessEngine
            
             if (e.LeftButton == MouseButtonState.Pressed && index != -1)
             {
-                //Console.WriteLine("move");
                 Point p = e.GetPosition(ChessBoard);
 
                 int top = Canvas.GetZIndex(piece[index].PieceImage);
@@ -160,27 +166,30 @@ namespace ChessEngine
                     if (top < Canvas.GetZIndex(child)) top = Canvas.GetZIndex(child);
                 }
 
-                //Console.WriteLine(p.X.ToString(), ",", p.Y.ToString());
+                p.X = p.X - 30;
+                p.Y = p.Y - 30;
                 Canvas.SetTop(piece[index].PieceImage, p.Y);
                 Canvas.SetLeft(piece[index].PieceImage, p.X);
-
                 Canvas.SetZIndex(piece[index].PieceImage, top + 1);
-                // Inititate the drag-and-drop operation.
-               // DragDrop.DoDragDrop(this, data, DragDropEffects.Move);
             }
         }
 
         protected override void OnMouseLeftButtonUp(MouseButtonEventArgs e)
         {
             base.OnMouseLeftButtonUp(e);
-            piece[index].snapToBoard(e.GetPosition(ChessBoard));
-            Point p = piece[index].locationOnBoard();
 
-            Canvas.SetLeft(piece[index].PieceImage, p.X);
-            Canvas.SetTop(piece[index].PieceImage, p.Y);
+            if (index != -1)
+            { 
+                
+                piece[index].snapToBoard(e.GetPosition(ChessBoard));
+                Point p = piece[index].locationOnBoard();
 
-            index = -1;
-            Console.WriteLine("Leave");
+                Canvas.SetLeft(piece[index].PieceImage, p.X);
+                Canvas.SetTop(piece[index].PieceImage, p.Y);
+                
+                index = -1;
+                Console.WriteLine("Leave");
+            }
         }
     }
 }
