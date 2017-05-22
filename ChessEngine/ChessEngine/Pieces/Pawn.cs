@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
+using System.Windows;
 
 namespace ChessEngine
 {
@@ -16,5 +17,26 @@ namespace ChessEngine
             PieceImage = getImageName("pawn");
             Value = 1;
         }
+
+        override
+        public bool IsValidMove(Point p)
+        {
+            if (this.Color)
+            {
+                int loc = (int)(this.Location.Y - p.Y);
+
+                if (loc > 2 || loc <= 0) return false;
+                else return true;
+               
+            }
+            else
+            {
+                int loc = (int)(p.Y - this.Location.Y);
+
+                if (loc > 2 || loc <= 0) return false; 
+                else return true;
+            }
+        }
+
     }
 }

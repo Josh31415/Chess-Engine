@@ -59,6 +59,8 @@ namespace ChessEngine
             set { point = value; }
         }
 
+        public abstract bool IsValidMove(Point p);
+
         public Image getImageName(string type)
         {
             string pieceColor;
@@ -83,16 +85,31 @@ namespace ChessEngine
             return im;
         }
 
-        public void snapToBoard(Point location)
+        public bool movePiece(Point location)
         {
             Point p;
             int x =(int) location.X / 63;
             int y = (int)location.Y / 63;
 
-            p = new Point(x, y);
-            this.Location = p;
-        }
+            if (x > 7) x = 7;
+            else if (x < 0) x = 0;
+            else if (y > 7) x = 7;
+            else if (y < 0) x = 0;
 
+            p = new Point(x, y);
+
+            if (IsValidMove(p)){
+                this.Location = p;
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+
+
+        }
+       
         public Point locationOnBoard(Point location)
         {
             Point p = new Point();

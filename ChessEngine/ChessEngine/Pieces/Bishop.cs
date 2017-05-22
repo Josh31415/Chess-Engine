@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace ChessEngine
 {
@@ -14,6 +15,20 @@ namespace ChessEngine
             Id = pieceid;
             PieceImage = getImageName("bishop");
             Value = 3;
+        }
+
+        override
+        public bool IsValidMove(Point p)
+        {
+            int slope = 0;
+            int dx = (int)p.X - (int)this.Location.X;
+            int dy = (int)p.Y - (int)this.Location.Y;
+
+            if (dx != 0) slope = dy / dx;
+
+            if (slope == 1 || slope == -1) return true;
+            else if (dx == 0 && dy == 0) return false;
+            else return false;
         }
     }
 }

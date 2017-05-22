@@ -14,11 +14,9 @@ namespace ChessEngine
     /// 
     public partial class MainWindow : Window
     {
-        Piece[] piece = new Piece[32];
-
-        private Point position;
-        private Point previousLocation;
+        private Piece[] piece = new Piece[32];
         private int index;
+        private bool turn;
 
         public void SetupBoard()
         {
@@ -58,6 +56,9 @@ namespace ChessEngine
             piece[30] = new Pawn(true, "pbg");
             piece[31] = new Pawn(true, "pbh");
 
+            // set the first turn to white
+            turn = true;
+             
             // Adds the black home row to the board
             for (int i = 0; i < 8; i++)
             {
@@ -116,17 +117,11 @@ namespace ChessEngine
             for(int i = 0; i < 32; i++) piece[i].PieceImage.AllowDrop = true;
         }
 
+        // finds the location of a piece on the board
         public int findPiece(Point p)
         {
             for(int i = 0; i < 32; i++)
             {
-                /*
-                Console.WriteLine(i);
-                Console.WriteLine(piece[i].locationOnBoard());
-                Console.WriteLine(Math.Abs(piece[i].locationOnBoard().X - p.Y));
-                Console.WriteLine(Math.Abs(piece[i].locationOnBoard().Y - p.Y));
-                Console.WriteLine();
-                */
                 int xError = (int) (p.X - piece[i].locationOnBoard().X);
                 int yError = (int)(p.Y - piece[i].locationOnBoard().Y);
 
@@ -146,10 +141,7 @@ namespace ChessEngine
         {
             base.OnMouseDown(e);
             Point p = e.GetPosition(ChessBoard);
-            Console.WriteLine(p);
-            Console.WriteLine("down");
             index = findPiece(p);
-            Console.WriteLine(index);
         }
 
         protected override void OnMouseMove(MouseEventArgs e)
@@ -180,15 +172,18 @@ namespace ChessEngine
 
             if (index != -1)
             { 
+                if(piece[index].Color == turn)
+                {
+                    bool valid = piece[index].movePiece(e.GetPosition(ChessBoard));
+                    if(valid) turn = !turn;
+                }
                 
-                piece[index].snapToBoard(e.GetPosition(ChessBoard));
                 Point p = piece[index].locationOnBoard();
 
                 Canvas.SetLeft(piece[index].PieceImage, p.X);
                 Canvas.SetTop(piece[index].PieceImage, p.Y);
                 
                 index = -1;
-                Console.WriteLine("Leave");
             }
         }
     }
