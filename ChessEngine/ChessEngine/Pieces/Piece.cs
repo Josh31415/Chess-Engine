@@ -61,6 +61,17 @@ namespace ChessEngine
 
         public abstract bool IsValidMove(Point p);
 
+        public static Point boardToPiece(Point p)
+        {
+            Point finPoint;
+            int x = (int)(p.X / 63);
+            int y = (int)(p.Y / 63);
+
+            finPoint = new Point(x, y);
+
+            return finPoint;
+        }
+
         public Image getImageName(string type)
         {
             string pieceColor;
@@ -99,7 +110,6 @@ namespace ChessEngine
             p = new Point(x, y);
 
             if (IsValidMove(p)){
-                this.Location = p;
                 return true;
             }
             else

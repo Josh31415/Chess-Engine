@@ -21,11 +21,14 @@ namespace ChessEngine
         override
         public bool IsValidMove(Point p)
         {
+            int xloc = (int)(this.Location.X - p.X);
+
             if (this.Color)
             {
-                int loc = (int)(this.Location.Y - p.Y);
-
-                if (loc > 2 || loc <= 0) return false;
+                int yloc = (int)(this.Location.Y - p.Y);
+               
+                if (yloc > 2 || yloc <= 0) return false;
+                else if (xloc != 0) return false;
                 else return true;
                
             }
@@ -34,6 +37,7 @@ namespace ChessEngine
                 int loc = (int)(p.Y - this.Location.Y);
 
                 if (loc > 2 || loc <= 0) return false; 
+                else if (xloc != 0) return false;
                 else return true;
             }
         }

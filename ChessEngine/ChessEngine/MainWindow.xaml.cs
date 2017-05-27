@@ -23,8 +23,8 @@ namespace ChessEngine
             piece[0] = new Rook(false, "rbk");
             piece[1] = new Knight(false, "nbk");
             piece[2] = new Bishop(false, "bbk");
-            piece[3] = new King(false, "kb");
-            piece[4] = new Queen(false, "qb");
+            piece[3] = new Queen(false, "qb");
+            piece[4] = new King(false, "kb");
             piece[5] = new Bishop(false, "bbq");
             piece[6] = new Knight(false, "nbq");
             piece[7] = new Rook(false, "rbq");
@@ -41,8 +41,8 @@ namespace ChessEngine
             piece[16] = new Rook(true, "rwk");
             piece[17] = new Knight(true, "nwk");
             piece[18] = new Bishop(true, "bwk");
-            piece[19] = new King(true, "kw");
-            piece[20] = new Queen(true, "qw");
+            piece[19] = new Queen(true, "qw");
+            piece[20] = new King(true, "kw");
             piece[21] = new Bishop(true, "bbw");
             piece[22] = new Knight(true, "nbw");
             piece[23] = new Rook(true, "rbw");
@@ -137,6 +137,148 @@ namespace ChessEngine
             return -1;
         }
 
+        private bool checkPiecePath( Point oldLoc, Point newLoc)
+        {
+            double slope = 0;
+            double dy = newLoc.Y - oldLoc.Y;
+            double dx = newLoc.X - oldLoc.X;
+            Point loc = new Point();
+
+            if (dx != 0) slope = dy / dx;
+            else slope = double.NaN;
+
+            Console.WriteLine(slope);
+            Console.WriteLine(dx);
+
+            if (!double.IsNaN(slope))
+            {
+                if(slope == 1)
+                {
+                    Console.WriteLine("slope is 1");
+                    if (dx < 0)
+                    {
+                        for (int i = 1; i < Math.Abs(dx); i++)
+                        {
+                            loc.X = newLoc.X + i;
+                            loc.Y = newLoc.Y + i;
+
+                            for (int j = 0; j < piece.Length; j++)
+                            {
+                                if(piece[j].Location == loc) return false;
+                            }
+                        }
+                    }
+                    else if (dx > 0)
+                    {
+                        for (int i = 1; i < Math.Abs(dx); i++)
+                        {
+                            loc.X = oldLoc.X + i;
+                            loc.Y = oldLoc.Y + i;
+
+                            for (int j = 0; j < piece.Length; j++)
+                            {
+                                if (piece[j].Location == loc) return false;
+                            }
+                        }
+                    }
+                }
+                if (slope == -1)
+                {
+                    Console.WriteLine("slope is -1");
+                    if (dx > 0)
+                    {
+                        for (int i = 1; i < dx; i++)
+                        {
+                            loc.X = newLoc.X - i;
+                            loc.Y = newLoc.Y + i;
+
+                            for (int j = 0; j < piece.Length; j++)
+                            {
+                                if (piece[j].Location == loc) return false;
+                            }
+                        }
+                    }
+                    else if (dx < 0)
+                    {
+                        for (int i = 1; i < Math.Abs(dx); i++)
+                        {
+                            loc.X = oldLoc.X - i;
+                            loc.Y = oldLoc.Y + i;
+
+                            for (int j = 0; j < piece.Length; j++)
+                            {
+                                if (piece[j].Location == loc) return false;
+                            }
+                        }
+                    }
+                }
+            }
+            else if (slope == 0)
+            {
+                Console.WriteLine("slope is 0");
+                if (dx > 0)
+                {
+                    for (int i = 1; i < Math.Abs(dx); i++)
+                    {
+                        loc.X = oldLoc.X + i;
+                        loc.Y = oldLoc.Y;
+                        Console.WriteLine(loc);
+
+                        for (int j = 0; j < piece.Length; j++)
+                        {
+                            if (piece[j].Location == loc) return false;
+                        }
+                    }
+                }
+                else if (dx < 0)
+                {
+                    for (int i = 1; i < Math.Abs(dx); i++)
+                    {
+                        loc.X = oldLoc.X - i;
+                        loc.Y = oldLoc.Y;
+
+                        for (int j = 0; j < piece.Length; j++)
+                        {
+                            if (piece[j].Location == loc) return false;
+                        }
+                    }
+                }
+            }
+            else if (double.IsNaN(slope))
+            {
+                Console.WriteLine("slope is NAN");
+                if (dy > 0)
+                {
+                    for (int i = 1; i < Math.Abs(dy); i++)
+                    {
+                        loc.X = oldLoc.X;
+                        loc.Y = oldLoc.Y + i;
+
+                        for (int j = 0; j < piece.Length; j++)
+                        {
+                            if (piece[j].Location == loc) return false;
+                        }
+                    }
+                }
+                else if (dy < 0)
+                {
+                    for (int i = 1; i < Math.Abs(dy); i++)
+                    {
+                        loc.X = oldLoc.X;
+                        loc.Y = oldLoc.Y - i;
+
+                        for (int j = 0; j < piece.Length; j++)
+                        {
+                            if (piece[j].Location == loc) return false;
+                        }
+                    }
+                }
+            }
+            
+
+            return true;
+        }
+
         protected override void OnMouseDown(MouseButtonEventArgs e)
         {
             base.OnMouseDown(e);
@@ -171,11 +313,27 @@ namespace ChessEngine
             base.OnMouseLeftButtonUp(e);
 
             if (index != -1)
-            { 
-                if(piece[index].Color == turn)
+            {
+                if (piece[index].Color == turn)
                 {
-                    bool valid = piece[index].movePiece(e.GetPosition(ChessBoard));
-                    if(valid) turn = !turn;
+                    Point newLoc = e.GetPosition(ChessBoard);
+                    bool valid = piece[index].movePiece(newLoc);
+
+                    newLoc = Piece.boardToPiece(newLoc);
+
+                    if (valid)
+                    {
+                        if (checkPiecePath(piece[index].Location, newLoc))
+                        {
+                            piece[index].Location = newLoc;
+                            turn = !turn;
+                        }
+                        else
+                        {
+                            Console.WriteLine("not valid");
+                            
+                        }
+                    }
                 }
                 
                 Point p = piece[index].locationOnBoard();
