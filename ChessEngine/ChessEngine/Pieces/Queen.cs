@@ -15,6 +15,7 @@ namespace ChessEngine
             Id = pieceid;
             PieceImage = getImageName("queen");
             Value = 9;
+            Moved = false;
         }
 
         override

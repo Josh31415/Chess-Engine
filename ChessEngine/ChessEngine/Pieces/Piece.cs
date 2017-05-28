@@ -12,10 +12,13 @@ namespace ChessEngine
     abstract class Piece
     {
         private bool color;
+        private bool captured;
+        private bool moved;
         private string id;
         private int pieceValue;
         private Point point;
         private Image pieceIm;
+
 
         public Piece(bool piececolor, string pieceid)
         {
@@ -59,6 +62,18 @@ namespace ChessEngine
             set { point = value; }
         }
 
+        public bool Moved
+        {
+            get { return moved; }
+            set { moved = value; }
+        }
+
+        public bool Captured
+        {
+            get { return captured; }
+            set { captured = value; }
+        }
+
         public abstract bool IsValidMove(Point p);
 
         public static Point boardToPiece(Point p)
@@ -96,28 +111,15 @@ namespace ChessEngine
             return im;
         }
 
-        public bool movePiece(Point location)
+        public bool movePiece(Point p)
         {
-            Point p;
-            int x =(int) location.X / 63;
-            int y = (int)location.Y / 63;
+            if(p.X > 7) p.X = 7;
+            else if (p.X < 0) p.X = 0;
+            else if (p.Y > 7) p.Y = 7;
+            else if (p.Y < 0) p.Y = 0;
 
-            if (x > 7) x = 7;
-            else if (x < 0) x = 0;
-            else if (y > 7) x = 7;
-            else if (y < 0) x = 0;
-
-            p = new Point(x, y);
-
-            if (IsValidMove(p)){
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-
-
+            if (IsValidMove(p)) return true;
+            else return false;
         }
        
         public Point locationOnBoard(Point location)

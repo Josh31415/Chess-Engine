@@ -10,14 +10,17 @@ namespace ChessEngine
 {
     class Pawn : Piece
     {
+       
         public Pawn(bool piececolor, string pieceid)
         {
             Color = piececolor;
             Id = pieceid;
             PieceImage = getImageName("pawn");
             Value = 1;
+            Moved = false;
         }
 
+        
         override
         public bool IsValidMove(Point p)
         {
@@ -25,10 +28,11 @@ namespace ChessEngine
 
             if (this.Color)
             {
-                int yloc = (int)(this.Location.Y - p.Y);
+                int loc = (int)(this.Location.Y - p.Y);
                
-                if (yloc > 2 || yloc <= 0) return false;
+                if (loc > 2 || loc <= 0) return false;
                 else if (xloc != 0) return false;
+                else if (loc == 2 && Moved) return false;
                 else return true;
                
             }
@@ -36,8 +40,9 @@ namespace ChessEngine
             {
                 int loc = (int)(p.Y - this.Location.Y);
 
-                if (loc > 2 || loc <= 0) return false; 
-                else if (xloc != 0) return false;
+                if (loc > 2 || loc <= 0) return false;
+                else if (xloc != 0)return false;
+                else if (loc == 2 && Moved) return false;
                 else return true;
             }
         }

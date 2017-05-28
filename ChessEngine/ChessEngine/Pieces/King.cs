@@ -14,6 +14,7 @@ namespace ChessEngine
             Color = piececolor;
             Id = pieceid;
             PieceImage = getImageName("king");
+            Moved = false;
         }
 
         override

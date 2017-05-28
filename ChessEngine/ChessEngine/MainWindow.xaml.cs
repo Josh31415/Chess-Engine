@@ -137,148 +137,6 @@ namespace ChessEngine
             return -1;
         }
 
-        private bool checkPiecePath( Point oldLoc, Point newLoc)
-        {
-            double slope = 0;
-            double dy = newLoc.Y - oldLoc.Y;
-            double dx = newLoc.X - oldLoc.X;
-            Point loc = new Point();
-
-            if (dx != 0) slope = dy / dx;
-            else slope = double.NaN;
-
-            Console.WriteLine(slope);
-            Console.WriteLine(dx);
-
-            if (!double.IsNaN(slope))
-            {
-                if(slope == 1)
-                {
-                    Console.WriteLine("slope is 1");
-                    if (dx < 0)
-                    {
-                        for (int i = 1; i < Math.Abs(dx); i++)
-                        {
-                            loc.X = newLoc.X + i;
-                            loc.Y = newLoc.Y + i;
-
-                            for (int j = 0; j < piece.Length; j++)
-                            {
-                                if(piece[j].Location == loc) return false;
-                            }
-                        }
-                    }
-                    else if (dx > 0)
-                    {
-                        for (int i = 1; i < Math.Abs(dx); i++)
-                        {
-                            loc.X = oldLoc.X + i;
-                            loc.Y = oldLoc.Y + i;
-
-                            for (int j = 0; j < piece.Length; j++)
-                            {
-                                if (piece[j].Location == loc) return false;
-                            }
-                        }
-                    }
-                }
-                if (slope == -1)
-                {
-                    Console.WriteLine("slope is -1");
-                    if (dx > 0)
-                    {
-                        for (int i = 1; i < dx; i++)
-                        {
-                            loc.X = newLoc.X - i;
-                            loc.Y = newLoc.Y + i;
-
-                            for (int j = 0; j < piece.Length; j++)
-                            {
-                                if (piece[j].Location == loc) return false;
-                            }
-                        }
-                    }
-                    else if (dx < 0)
-                    {
-                        for (int i = 1; i < Math.Abs(dx); i++)
-                        {
-                            loc.X = oldLoc.X - i;
-                            loc.Y = oldLoc.Y + i;
-
-                            for (int j = 0; j < piece.Length; j++)
-                            {
-                                if (piece[j].Location == loc) return false;
-                            }
-                        }
-                    }
-                }
-            }
-            else if (slope == 0)
-            {
-                Console.WriteLine("slope is 0");
-                if (dx > 0)
-                {
-                    for (int i = 1; i < Math.Abs(dx); i++)
-                    {
-                        loc.X = oldLoc.X + i;
-                        loc.Y = oldLoc.Y;
-                        Console.WriteLine(loc);
-
-                        for (int j = 0; j < piece.Length; j++)
-                        {
-                            if (piece[j].Location == loc) return false;
-                        }
-                    }
-                }
-                else if (dx < 0)
-                {
-                    for (int i = 1; i < Math.Abs(dx); i++)
-                    {
-                        loc.X = oldLoc.X - i;
-                        loc.Y = oldLoc.Y;
-
-                        for (int j = 0; j < piece.Length; j++)
-                        {
-                            if (piece[j].Location == loc) return false;
-                        }
-                    }
-                }
-            }
-            else if (double.IsNaN(slope))
-            {
-                Console.WriteLine("slope is NAN");
-                if (dy > 0)
-                {
-                    for (int i = 1; i < Math.Abs(dy); i++)
-                    {
-                        loc.X = oldLoc.X;
-                        loc.Y = oldLoc.Y + i;
-
-                        for (int j = 0; j < piece.Length; j++)
-                        {
-                            if (piece[j].Location == loc) return false;
-                        }
-                    }
-                }
-                else if (dy < 0)
-                {
-                    for (int i = 1; i < Math.Abs(dy); i++)
-                    {
-                        loc.X = oldLoc.X;
-                        loc.Y = oldLoc.Y - i;
-
-                        for (int j = 0; j < piece.Length; j++)
-                        {
-                            if (piece[j].Location == loc) return false;
-                        }
-                    }
-                }
-            }
-            
-
-            return true;
-        }
-
         protected override void OnMouseDown(MouseButtonEventArgs e)
         {
             base.OnMouseDown(e);
@@ -317,27 +175,19 @@ namespace ChessEngine
                 if (piece[index].Color == turn)
                 {
                     Point newLoc = e.GetPosition(ChessBoard);
-                    bool valid = piece[index].movePiece(newLoc);
-
                     newLoc = Piece.boardToPiece(newLoc);
-
-                    if (valid)
+                    bool valid = piece[index].movePiece(newLoc);
+                    bool nBlocked = Rules.checkPiecePath(piece[index].Location, newLoc, piece);
+                     
+                    if (valid && nBlocked)
                     {
-                        if (checkPiecePath(piece[index].Location, newLoc))
-                        {
-                            piece[index].Location = newLoc;
-                            turn = !turn;
-                        }
-                        else
-                        {
-                            Console.WriteLine("not valid");
-                            
-                        }
+                        piece[index].Location = newLoc;
+                        piece[index].Moved = true; 
+                        turn = !turn;
                     }
                 }
-                
-                Point p = piece[index].locationOnBoard();
 
+                Point p = piece[index].locationOnBoard();
                 Canvas.SetLeft(piece[index].PieceImage, p.X);
                 Canvas.SetTop(piece[index].PieceImage, p.Y);
                 
