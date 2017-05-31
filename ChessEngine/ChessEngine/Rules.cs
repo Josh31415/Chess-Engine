@@ -9,11 +9,11 @@ namespace ChessEngine
 {
     static class Rules
     {
-        public static bool checkPiecePath(Point oldLoc, Point newLoc, Piece[] piece)
+        public static bool checkPiecePath(Piece old, Point newLoc, Piece[] piece)
         {
             double slope = 0;
-            double dy = newLoc.Y - oldLoc.Y;
-            double dx = newLoc.X - oldLoc.X;
+            double dy = newLoc.Y - old.Location.Y;
+            double dx = newLoc.X - old.Location.X;
             Point loc = new Point();
 
             if (dx != 0) slope = dy / dx;
@@ -38,8 +38,8 @@ namespace ChessEngine
                 {
                     for (int i = 1; i < Math.Abs(dx); i++)
                     {
-                        loc.X = oldLoc.X + i;
-                        loc.Y = oldLoc.Y + i;
+                        loc.X = old.Location.X + i;
+                        loc.Y = old.Location.Y + i;
 
                         for (int j = 0; j < piece.Length; j++)
                         {
@@ -50,7 +50,6 @@ namespace ChessEngine
             }
             if (slope == -1)
             {
-                Console.WriteLine("slope is -1");
                 if (dx > 0)
                 {
                     for (int i = 1; i < dx; i++)
@@ -68,8 +67,8 @@ namespace ChessEngine
                 {
                     for (int i = 1; i < Math.Abs(dx); i++)
                     {
-                        loc.X = oldLoc.X - i;
-                        loc.Y = oldLoc.Y + i;
+                        loc.X = old.Location.X - i;
+                        loc.Y = old.Location.Y + i;
 
                         for (int j = 0; j < piece.Length; j++)
                         {
@@ -84,8 +83,8 @@ namespace ChessEngine
                 {
                     for (int i = 1; i < Math.Abs(dx); i++)
                     {
-                        loc.X = oldLoc.X + i;
-                        loc.Y = oldLoc.Y;
+                        loc.X = old.Location.X + i;
+                        loc.Y = old.Location.Y;
 
                         for (int j = 0; j < piece.Length; j++)
                         {
@@ -97,8 +96,8 @@ namespace ChessEngine
                 {
                     for (int i = 1; i < Math.Abs(dx); i++)
                     {
-                        loc.X = oldLoc.X - i;
-                        loc.Y = oldLoc.Y;
+                        loc.X = old.Location.X - i;
+                        loc.Y = old.Location.Y;
 
                         for (int j = 0; j < piece.Length; j++)
                         {
@@ -113,8 +112,8 @@ namespace ChessEngine
                 {
                     for (int i = 1; i < Math.Abs(dy); i++)
                     {
-                        loc.X = oldLoc.X;
-                        loc.Y = oldLoc.Y + i;
+                        loc.X = old.Location.X;
+                        loc.Y = old.Location.Y + i;
 
                         for (int j = 0; j < piece.Length; j++)
                         {
@@ -126,8 +125,8 @@ namespace ChessEngine
                 {
                     for (int i = 1; i < Math.Abs(dy); i++)
                     {
-                        loc.X = oldLoc.X;
-                        loc.Y = oldLoc.Y - i;
+                        loc.X = old.Location.X;
+                        loc.Y = old.Location.Y - i;
 
                         for (int j = 0; j < piece.Length; j++)
                         {
@@ -137,7 +136,62 @@ namespace ChessEngine
                 }
             }
 
-            return true;
+            for (int i = 0; i < piece.Length; i++)
+            {
+                if(piece[i].Location == newLoc)
+                {
+                    if (piece[i].Color == old.Color) return false;
+                }
+            }
+
+                    return true;
+        }
+
+        public static bool checkCastle(Piece king, Point newLoc, Piece[] pieces, out int location)
+        {
+            location = 0;
+            double dy = newLoc.Y - king.Location.Y;
+            double dx = newLoc.X - king.Location.X;
+
+            if (Math.Abs(dx) != 2) return false;
+            else if(dy != 0) return false;
+            else if (king.Moved) return false;
+
+            for(int i = 0; i < pieces.Length; i++)
+            {
+                if (pieces[i].GetType().Equals(typeof(Rook)))
+                {
+                    if (pieces[i].Moved)
+                    {
+                    }
+                    else if (pieces[i].Location.X - newLoc.X == 1 && pieces[i].Location.Y == newLoc.Y)
+                    {
+                        location = i;
+                        return true;
+                    }
+                    else if (pieces[i].Location.X - newLoc.X == -2 && pieces[i].Location.Y == newLoc.Y)
+                    {
+                        location = i;
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
+
+        public static bool CheckCapture(Point loc, Piece[] p, out int capIndex)
+        {
+            capIndex = 0;
+            for(int i = 0; i < p.Length; i++)
+            {
+                if(p[i].Location == loc)
+                {
+                    capIndex = i;
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }

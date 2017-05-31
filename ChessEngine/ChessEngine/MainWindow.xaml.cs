@@ -177,13 +177,46 @@ namespace ChessEngine
                     Point newLoc = e.GetPosition(ChessBoard);
                     newLoc = Piece.boardToPiece(newLoc);
                     bool valid = piece[index].movePiece(newLoc);
-                    bool nBlocked = Rules.checkPiecePath(piece[index].Location, newLoc, piece);
-                     
+                    bool nBlocked = Rules.checkPiecePath(piece[index], newLoc, piece);
+
                     if (valid && nBlocked)
                     {
+                        if (Rules.CheckCapture(newLoc, piece, out int capIndex))
+                        {
+                            piece[capIndex].Captured = true;
+                            ChessBoard.Children.Remove(piece[capIndex].PieceImage);
+                        }
                         piece[index].Location = newLoc;
-                        piece[index].Moved = true; 
+                        piece[index].Moved = true;
                         turn = !turn;
+                    }
+                    else if (!valid && nBlocked && piece[index].GetType().Equals(typeof(King)))
+                    {
+                        Piece rook = new Rook();
+                        bool check = Rules.checkCastle(piece[index], newLoc, piece, out int location);
+
+                        if (check)
+                        {
+                            Point rLoc = piece[location].Location;
+                            if(rLoc.X - piece[index].Location.X < 0)
+                            {
+                                rLoc.X = newLoc.X + 1;
+                            }
+                            else if (rLoc.X - piece[index].Location.X > 0)
+                            {
+                                rLoc.X = newLoc.X - 1;
+                            }
+
+                            piece[location].Location = rLoc;
+                            piece[index].Location = newLoc;
+                            piece[location].Moved = true;
+                            piece[index].Moved = true;
+                            turn = !turn;
+
+                            Point pt = piece[location].locationOnBoard();
+                            Canvas.SetLeft(piece[location].PieceImage, pt.X);
+                            Canvas.SetTop(piece[location].PieceImage, pt.Y);
+                        }
                     }
                 }
 

@@ -18,6 +18,11 @@ namespace ChessEngine
             Moved = false;
         }
 
+        public Rook()
+        {
+
+        }
+
         override
         public bool IsValidMove(Point p)
         {
