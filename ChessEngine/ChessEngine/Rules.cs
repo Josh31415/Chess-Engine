@@ -193,5 +193,26 @@ namespace ChessEngine
             }
             return false;
         }
+
+        public static bool CheckPawnCapture(Point loc, Piece[] pieces, Piece pawn, out int capIndex)
+        {
+            double slope = 0;
+            double dx = loc.X - pawn.Location.X;
+            double dy = loc.Y - pawn.Location.Y;
+
+            capIndex = 0;
+            if (Math.Abs(slope) == 1)
+            {
+                for (int i = 0; i < pieces.Length; i++)
+                {
+                    if (pieces[i].Location == loc)
+                    {
+                        capIndex = i;
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
     }
 }

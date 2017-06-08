@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ChessEngine"
         mc:Ignorable="d"
-        Title="MainWindow" Height="600" Width="700" Background="Black">
+        Title="MainWindow" Height="600" Width="900" Background="Black">
 
     <Grid>
         <Label Foreground="White"/>
@@ -14,6 +14,15 @@
                 <ImageBrush ImageSource="chessboard2.png" Stretch="UniformToFill"/>
             </Canvas.Background>
         </Canvas>
+        <StackPanel Orientation="Vertical" Background="Gray" Width="300" VerticalAlignment="Stretch" HorizontalAlignment="Right">
+            <ComboBox x:Name="GameSelect" IsDropDownOpen="False" VerticalAlignment="Center" Width="150" Margin="40" Height="50" Text="Game Type" SelectionChanged="GameSelect_SelectionChanged">
+                <ComboBoxItem >Player vs Player</ComboBoxItem>
+                <ComboBoxItem>Player vs Computer</ComboBoxItem>
+            </ComboBox>
+            <Button x:Name="StartGame" HorizontalAlignment="Center" Height="60" Width="150" FontSize="20" Click="StartGame_Click"  >
+                Start Game
+            </Button>
+        </StackPanel>
     </Grid>
 
 </Window>

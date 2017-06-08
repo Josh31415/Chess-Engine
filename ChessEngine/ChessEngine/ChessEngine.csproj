@@ -55,6 +55,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Board.cs" />
+    <Compile Include="GameFile.cs" />
+    <Compile Include="HvsHGame.cs" />
+    <Compile Include="IGame.cs" />
     <Compile Include="IMovable.cs" />
     <Compile Include="Pieces\King.cs" />
     <Compile Include="Pieces\Queen.cs" />

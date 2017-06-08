@@ -113,23 +113,13 @@ namespace ChessEngine
 
         public bool movePiece(Point p)
         {
-            if(p.X > 7) p.X = 7;
+            if (p.X > 7) p.X = 7;
             else if (p.X < 0) p.X = 0;
             else if (p.Y > 7) p.Y = 7;
             else if (p.Y < 0) p.Y = 0;
 
             if (IsValidMove(p)) return true;
             else return false;
-        }
-       
-        public Point locationOnBoard(Point location)
-        {
-            Point p = new Point();
-
-            p.X = location.X * 63;
-            p.Y = location.Y * 63;
-
-            return p;
         }
 
         public Point locationOnBoard()
