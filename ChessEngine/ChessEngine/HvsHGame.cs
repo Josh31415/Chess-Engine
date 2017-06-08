@@ -11,10 +11,12 @@ namespace ChessEngine
     {
         private Piece[] piece = new Piece[32];
         private bool turn;
+        GameFile file;
 
         public HvsHGame()
         {
             SetupBoard();
+            file = new GameFile("../../pgns/temp.pgn");
         }
 
         public Piece[] getPieces()
@@ -70,35 +72,19 @@ namespace ChessEngine
             turn = true;
 
             // Adds the black home row to the board
-            for (int i = 0; i < 8; i++)
-            {
-                piece[i].Location = new Point(i, 0);
-                Point p = piece[i].locationOnBoard();
-            }
-
+            for (int i = 0; i < 8; i++) piece[i].Location = new Point(i, 0);
+            
             // Adds the black pawns to the board
-            for (int i = 8; i < 16; i++)
-            {
-                piece[i].Location = new Point(i - 8, 1);
-                Point p = piece[i].locationOnBoard();
-            }
+            for (int i = 8; i < 16; i++) piece[i].Location = new Point(i - 8, 1);
 
             // Adds the white home row to the board
-            for (int i = 16; i < 24; i++)
-            {
-                piece[i].Location = new Point(i - 16, 7);
-                Point p = piece[i].locationOnBoard();
-            }
-
+            for (int i = 16; i < 24; i++) piece[i].Location = new Point(i - 16, 7);
+           
             // Adds the White pawns to the board
-            for (int i = 24; i < 32; i++)
-            {
-                piece[i].Location = new Point(i - 24, 6);
-                Point p = piece[i].locationOnBoard();
-            }
+            for (int i = 24; i < 32; i++) piece[i].Location = new Point(i - 24, 6);
         }
 
-        public void CheckMove(Point position, int index)
+        public bool CheckMove(Point position, int index)
         {
             if (index != -1)
             {
@@ -117,8 +103,9 @@ namespace ChessEngine
                         }
                         piece[index].Location = newLoc;
                         piece[index].Moved = true;
-                        flipBoard();
                         turn = !turn;
+                        file.updatePgn(piece[index], newLoc);
+                        return true;
                     }
                     else if (!valid && nBlocked && piece[index].GetType().Equals(typeof(King)))
                     {
@@ -142,6 +129,7 @@ namespace ChessEngine
                             piece[location].Moved = true;
                             piece[index].Moved = true;
                             turn = !turn;
+                            return true;
                         }
                     }
                     else if (!valid && piece[index].GetType().Equals(typeof(Pawn)))
@@ -157,6 +145,8 @@ namespace ChessEngine
                     index = -1;
                 }
             }
+
+            return false;
         }
 
         private void flipBoard()

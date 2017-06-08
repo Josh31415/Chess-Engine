@@ -5,6 +5,7 @@ using System.Windows.Controls;
 using System;
 using System.Windows.Media;
 using System.Timers;
+using System.Media;
 
 namespace ChessEngine
 {
@@ -18,6 +19,7 @@ namespace ChessEngine
         private bool turn;
         Board board;
         IGame game;
+        private SoundPlayer startSoundPlayer = new System.Media.SoundPlayer("../../Sounds/chessPieceSound.wav");
 
         public void setupGame()
         {
@@ -72,13 +74,26 @@ namespace ChessEngine
         {
             base.OnMouseLeftButtonUp(e);
 
-            game.CheckMove(e.GetPosition(ChessBoard), index);
-
-            for (int i = 0; i < 32; i++)
+            if (index != -1)
             {
-                Point p = game.Pieces[index].locationOnBoard();
-                Canvas.SetLeft(game.Pieces[index].PieceImage, p.X);
-                Canvas.SetTop(game.Pieces[index].PieceImage, p.Y);
+                bool valid = game.CheckMove(e.GetPosition(ChessBoard), index);
+
+                if (valid) startSoundPlayer.Play();
+                
+                for (int i = 0; i < 32; i++)
+                {
+                    if (game.Pieces[i].Captured)
+                    {
+                        ChessBoard.Children.Remove(game.Pieces[i].PieceImage);
+                    }
+                    else
+                    {
+                        Point p = game.Pieces[index].locationOnBoard();
+                        Canvas.SetLeft(game.Pieces[index].PieceImage, p.X);
+                        Canvas.SetTop(game.Pieces[index].PieceImage, p.Y);
+                    }
+
+                }
             }
             
         }

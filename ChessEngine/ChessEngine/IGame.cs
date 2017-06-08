@@ -6,6 +6,6 @@ namespace ChessEngine
     {
         Piece[] Pieces { get; set; }
         void SetupBoard();
-        void CheckMove(Point position, int index);
+        bool CheckMove(Point position, int index);
     }
 }
