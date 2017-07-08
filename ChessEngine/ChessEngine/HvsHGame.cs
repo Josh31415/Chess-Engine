@@ -104,7 +104,15 @@ namespace ChessEngine
                         piece[index].Location = newLoc;
                         piece[index].Moved = true;
                         turn = !turn;
-                        file.updatePgn(piece[index], newLoc);
+                        //flipBoard();
+
+                        pieceMove move;
+                        move.piece = piece[index];
+                        move.newLocation = newLoc;
+                        move.capture = piece[capIndex].Captured;
+                        move.check = false;
+                        file.updatePgn(move);
+
                         return true;
                     }
                     else if (!valid && nBlocked && piece[index].GetType().Equals(typeof(King)))
@@ -123,6 +131,13 @@ namespace ChessEngine
                             {
                                 rLoc.X = newLoc.X - 1;
                             }
+
+                            pieceMove move;
+                            move.piece = piece[index];
+                            move.newLocation = newLoc;
+                            move.capture = false;
+                            move.check = true;
+                            file.updatePgn(move);
 
                             piece[location].Location = rLoc;
                             piece[index].Location = newLoc;

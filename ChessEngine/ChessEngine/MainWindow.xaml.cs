@@ -39,6 +39,9 @@ namespace ChessEngine
             InitializeComponent();
             board = new Board((int)ChessBoard.Width);
             setupGame();
+            GameFile file = new GameFile("../../pgns/temp.pgn");
+
+            //file.readPgn("../../pgns/test1.pgn");
         }
 
         protected override void OnMouseDown(MouseButtonEventArgs e)
