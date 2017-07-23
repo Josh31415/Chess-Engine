@@ -180,11 +180,12 @@ namespace ChessEngine
             return false;
         }
 
-        public static bool CheckCapture(Point loc, Piece[] p, out int capIndex)
+        public static bool CheckCapture(Point loc, Piece moved, Piece[] p, out int capIndex)
         {
             capIndex = 0;
             for(int i = 0; i < p.Length; i++)
             {
+                Console.WriteLine(p[i].Equals(moved));
                 if(p[i].Location == loc)
                 {
                     capIndex = i;
@@ -205,7 +206,7 @@ namespace ChessEngine
             {
                 for (int i = 0; i < pieces.Length; i++)
                 {
-                    if (pieces[i].Location == loc)
+                    if (pieces[i].Location == loc && !pieces[i].Equals(pawn))
                     {
                         capIndex = i;
                         return true;

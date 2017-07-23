@@ -1,11 +1,10 @@
 ﻿using System.Windows;
 using System.Windows.Input;
-using System.Drawing;
 using System.Windows.Controls;
 using System;
 using System.Windows.Media;
-using System.Timers;
 using System.Media;
+using System.Threading;
 
 namespace ChessEngine
 {
@@ -16,7 +15,7 @@ namespace ChessEngine
     public partial class MainWindow : Window
     {
         private int index;
-        private bool turn;
+        int angle = 180;
         Board board;
         IGame game;
         private SoundPlayer startSoundPlayer = new System.Media.SoundPlayer("../../Sounds/chessPieceSound.wav");
@@ -79,9 +78,18 @@ namespace ChessEngine
 
             if (index != -1)
             {
+                RotateTransform transform = new RotateTransform(angle, 0, 0);
                 bool valid = game.CheckMove(e.GetPosition(ChessBoard), index);
 
-                if (valid) startSoundPlayer.Play();
+                if (valid)
+                {
+                    startSoundPlayer.Play();
+                    Thread.Sleep(400);
+
+                    ChessBoard.LayoutTransform = transform;
+                    if (angle == 180) angle = 0;
+                    else angle = 180;
+                }
                 
                 for (int i = 0; i < 32; i++)
                 {
@@ -91,9 +99,10 @@ namespace ChessEngine
                     }
                     else
                     {
-                        Point p = game.Pieces[index].locationOnBoard();
-                        Canvas.SetLeft(game.Pieces[index].PieceImage, p.X);
-                        Canvas.SetTop(game.Pieces[index].PieceImage, p.Y);
+                        Point p = game.Pieces[i].locationOnBoard();
+                        Canvas.SetLeft(game.Pieces[i].PieceImage, p.X);
+                        Canvas.SetTop(game.Pieces[i].PieceImage, p.Y);
+                        if(valid) game.Pieces[i].PieceImage.LayoutTransform = transform;
                     }
 
                 }
@@ -114,7 +123,6 @@ namespace ChessEngine
         private void GameSelect_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             GameSelect.Visibility = Visibility.Visible;
-            Console.WriteLine(GameSelect.SelectedValue);
             GameSelect.IsDropDownOpen = true;
         }
     }

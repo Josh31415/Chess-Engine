@@ -97,7 +97,7 @@ namespace ChessEngine
 
                     if (valid && nBlocked)
                     {
-                        if (Rules.CheckCapture(newLoc, piece, out int capIndex))
+                        if (Rules.CheckCapture(newLoc, piece[index], piece, out int capIndex))
                         {
                             piece[capIndex].Captured = true;
                         }
@@ -122,6 +122,7 @@ namespace ChessEngine
 
                         if (check)
                         {
+                            Console.WriteLine(location);
                             Point rLoc = piece[location].Location;
                             if (rLoc.X - piece[index].Location.X < 0)
                             {
@@ -131,6 +132,7 @@ namespace ChessEngine
                             {
                                 rLoc.X = newLoc.X - 1;
                             }
+                            Console.WriteLine(rLoc);
 
                             pieceMove move;
                             move.piece = piece[index];
@@ -168,8 +170,9 @@ namespace ChessEngine
         {
             for(int i = 0; i < 32; i++)
             {
-                double x = Math.Abs(piece[i].Location.X - 7);
-                double y = Math.Abs(piece[i].Location.Y - 7);
+                
+                double x = Math.Abs(7 - piece[i].Location.X);
+                double y = Math.Abs(7 - piece[i].Location.Y);
                 piece[i].Location = new Point(x, y);
             }
         }

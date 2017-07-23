@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
@@ -132,5 +128,14 @@ namespace ChessEngine
             return p;
         }
 
+        public bool Equals(Piece p)
+        {
+            if(p.Color != Color) return false;
+            if (p.Moved != Moved) return false;
+            if (p.Id != Id) return false;
+            if (p.pieceValue != pieceValue) return false;
+            if (p.point != point) return false;
+            return true;
+        }
     }
 }
