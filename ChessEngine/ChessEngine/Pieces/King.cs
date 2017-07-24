@@ -30,5 +30,22 @@ namespace ChessEngine
             }
             
         }
+
+        override
+        public List<Point> AttackedSquares(Piece[] p)
+        {
+            List<Point> squares = new List<Point>();
+
+            squares.Add(new Point(Location.X, Location.Y - 1));
+            squares.Add(new Point(Location.X - 1, Location.Y));
+            squares.Add(new Point(Location.X, Location.Y + 1));
+            squares.Add(new Point(Location.X + 1, Location.Y));
+            squares.Add(new Point(Location.X + 1, Location.Y + 1));
+            squares.Add(new Point(Location.X + 1, Location.Y - 1));
+            squares.Add(new Point(Location.X - 1, Location.Y + 1));
+            squares.Add(new Point(Location.X + 1, Location.Y - 1));
+
+            return squares;
+        }
     }
 }

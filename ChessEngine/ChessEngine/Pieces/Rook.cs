@@ -37,5 +37,21 @@ namespace ChessEngine
             else return false;
         }
 
+        override
+        public List<Point> AttackedSquares(Piece[] p)
+        {
+            List<Point> squares = new List<Point>();
+
+            //Find all attacked squares right of the rook
+            squares.AddRange(checkVHSquares(p, (int)this.Location.X, 8));
+            //Find all attacked squares left of the rook
+            squares.AddRange(checkVHSquares(p, 0, (int)this.Location.X -1));
+            //Find all attacked squares above the rook
+            squares.AddRange(checkVHSquares(p, 0, (int)this.Location.Y - 1));
+            //Find all attacked squares below the rook
+            squares.AddRange(checkVHSquares(p, (int)this.Location.Y, 8));
+            
+            return squares;
+        }
     }
 }

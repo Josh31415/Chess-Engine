@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using System.Windows;
 
 namespace ChessEngine
@@ -30,6 +26,31 @@ namespace ChessEngine
 
             if (slope == 0 || slope == 1 || slope == -1) return true;
             else return false;
+        }
+
+        override
+        public List<Point> AttackedSquares(Piece[] p)
+        {
+            List<Point> squares = new List<Point>();
+
+            //Find all attacked squares right of the queen
+            squares.AddRange(checkVHSquares(p, (int)this.Location.X, 8));
+            //Find all attacked squares left of the queen
+            squares.AddRange(checkVHSquares(p, 0, (int)this.Location.X - 1));
+            //Find all attacked squares above the queen
+            squares.AddRange(checkVHSquares(p, 0, (int)this.Location.Y - 1));
+            //Find all attacked squares below the queen
+            squares.AddRange(checkVHSquares(p, (int)this.Location.Y, 8));
+            //Find all attacked squares diagonal to the upper right the queen
+            squares.AddRange(checkDiagonalSquares(p, 0, (int)this.Location.X - 1));
+            //Find all attacked squares diagonal to the upper left the queen
+            squares.AddRange(checkDiagonalSquares(p, 0, (int)this.Location.X - 1));
+            //Find all attacked squares diagonal to the lower right the queen
+            squares.AddRange(checkDiagonalSquares(p, 0, (int)this.Location.Y - 1));
+            //Find all attacked squares diagonal to the lower left the queen
+            squares.AddRange(checkDiagonalSquares(p, (int)this.Location.Y, 8));
+    
+            return squares;
         }
     } 
 }

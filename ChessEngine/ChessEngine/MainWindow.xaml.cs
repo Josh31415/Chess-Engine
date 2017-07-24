@@ -80,17 +80,8 @@ namespace ChessEngine
             {
                 RotateTransform transform = new RotateTransform(angle, 0, 0);
                 bool valid = game.CheckMove(e.GetPosition(ChessBoard), index);
-
-                if (valid)
-                {
-                    startSoundPlayer.Play();
-                    Thread.Sleep(400);
-
-                    ChessBoard.LayoutTransform = transform;
-                    if (angle == 180) angle = 0;
-                    else angle = 180;
-                }
-                
+                if (valid) startSoundPlayer.Play();
+               
                 for (int i = 0; i < 32; i++)
                 {
                     if (game.Pieces[i].Captured)
@@ -105,6 +96,14 @@ namespace ChessEngine
                         if(valid) game.Pieces[i].PieceImage.LayoutTransform = transform;
                     }
 
+                }
+
+                if (valid)
+                {
+                    Thread.Sleep(400);
+                    ChessBoard.LayoutTransform = transform;
+                    if (angle == 180) angle = 0;
+                    else angle = 180;
                 }
             }
             

@@ -31,5 +31,22 @@ namespace ChessEngine
             else if (dx == 0 && dy == 0) return false;
             else return false;
         }
+
+        override
+        public List<Point> AttackedSquares(Piece[] p)
+        {
+            List<Point> squares = new List<Point>();
+
+            //Find all attacked squares diagonal to the upper right the queen
+            squares.AddRange(checkDiagonalSquares(p, 0, (int)this.Location.X - 1));
+            //Find all attacked squares diagonal to the upper left the queen
+            squares.AddRange(checkDiagonalSquares(p, 0, (int)this.Location.X - 1));
+            //Find all attacked squares diagonal to the lower right the queen
+            squares.AddRange(checkDiagonalSquares(p, 0, (int)this.Location.Y - 1));
+            //Find all attacked squares diagonal to the lower left the queen
+            squares.AddRange(checkDiagonalSquares(p, (int)this.Location.Y, 8));
+
+            return squares;
+        }
     }
 }

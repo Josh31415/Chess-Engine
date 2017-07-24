@@ -47,5 +47,23 @@ namespace ChessEngine
             }
         }
 
+        override
+        public List<Point> AttackedSquares(Piece[] p)
+        {
+            List<Point> squares = new List<Point>();
+            if (Color)
+            {
+                if (Location.X - 1 >= 0 && Location.Y - 1 >= 0) squares.Add(new Point(Location.X - 1, Location.Y - 1));
+                if (Location.X + 1 < 8 && Location.Y - 1 >= 0) squares.Add(new Point(Location.X + 1, Location.Y - 1));
+            }
+            else
+            {
+                if (Location.X - 1 >= 0 && Location.Y + 1 < 8) squares.Add(new Point(Location.X - 1, Location.Y + 1));
+                if (Location.X + 1 >= 0 && Location.Y + 1 < 8) squares.Add(new Point(Location.X + 1, Location.Y + 1));
+            }
+
+            return squares;
+        }
+
     }
 }

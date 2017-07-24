@@ -30,7 +30,8 @@ namespace ChessEngine
 
                         for (int j = 0; j < piece.Length; j++)
                         {
-                            if (piece[j].Location == loc) return false;
+                            if (piece[j].Location == loc && !piece[j].Captured) Console.WriteLine(piece[j].Location);
+                            if (piece[j].Location == loc && !piece[j].Captured) return false;
                         }
                     }
                 }
@@ -43,7 +44,8 @@ namespace ChessEngine
 
                         for (int j = 0; j < piece.Length; j++)
                         {
-                            if (piece[j].Location == loc) return false;
+                                if (piece[j].Location == loc && !piece[j].Captured) Console.WriteLine(piece[j].Location);
+                                if (piece[j].Location == loc && !piece[j].Captured) return false;
                         }
                     }
                 }
@@ -59,7 +61,8 @@ namespace ChessEngine
 
                         for (int j = 0; j < piece.Length; j++)
                         {
-                            if (piece[j].Location == loc) return false;
+                            if (piece[j].Location == loc && !piece[j].Captured) Console.WriteLine(piece[j].Location);
+                            if (piece[j].Location == loc && !piece[j].Captured) return false;
                         }
                     }
                 }
@@ -72,7 +75,8 @@ namespace ChessEngine
 
                         for (int j = 0; j < piece.Length; j++)
                         {
-                            if (piece[j].Location == loc) return false;
+                            if (piece[j].Location == loc && !piece[j].Captured) Console.WriteLine(piece[j].Location);
+                            if (piece[j].Location == loc && !piece[j].Captured) return false;
                         }
                     }
                 }
@@ -88,7 +92,8 @@ namespace ChessEngine
 
                         for (int j = 0; j < piece.Length; j++)
                         {
-                            if (piece[j].Location == loc) return false;
+                            if (piece[j].Location == loc && !piece[j].Captured) Console.WriteLine(piece[j].Location);
+                            if (piece[j].Location == loc && !piece[j].Captured) return false;
                         }
                     }
                 }
@@ -101,7 +106,8 @@ namespace ChessEngine
 
                         for (int j = 0; j < piece.Length; j++)
                         {
-                            if (piece[j].Location == loc) return false;
+                            if (piece[j].Location == loc && !piece[j].Captured) Console.WriteLine(piece[j].Location);
+                            if (piece[j].Location == loc && !piece[j].Captured) return false;
                         }
                     }
                 }
@@ -117,7 +123,8 @@ namespace ChessEngine
 
                         for (int j = 0; j < piece.Length; j++)
                         {
-                            if (piece[j].Location == loc) return false;
+                            if (piece[j].Location == loc && !piece[j].Captured) Console.WriteLine(piece[j].Location);
+                            if (piece[j].Location == loc && !piece[j].Captured) return false;
                         }
                     }
                 }
@@ -130,7 +137,8 @@ namespace ChessEngine
 
                         for (int j = 0; j < piece.Length; j++)
                         {
-                            if (piece[j].Location == loc) return false;
+                            if (piece[j].Location == loc && !piece[j].Captured) Console.WriteLine(piece[j].Location);
+                            if (piece[j].Location == loc && !piece[j].Captured) return false;
                         }
                     }
                 }
@@ -140,11 +148,11 @@ namespace ChessEngine
             {
                 if(piece[i].Location == newLoc)
                 {
-                    if (piece[i].Color == old.Color) return false;
+                    if (piece[i].Color == old.Color && !piece[i].Captured) return false;
                 }
             }
 
-                    return true;
+            return true;
         }
 
         public static bool checkCastle(Piece king, Point newLoc, Piece[] pieces, out int location)
@@ -185,7 +193,6 @@ namespace ChessEngine
             capIndex = 0;
             for(int i = 0; i < p.Length; i++)
             {
-                Console.WriteLine(p[i].Equals(moved));
                 if(p[i].Location == loc)
                 {
                     capIndex = i;
@@ -195,18 +202,18 @@ namespace ChessEngine
             return false;
         }
 
-        public static bool CheckPawnCapture(Point loc, Piece[] pieces, Piece pawn, out int capIndex)
+        public static bool CheckPawnCapture(Point loc, Piece[] pieces, int index, out int capIndex)
         {
-            double slope = 0;
-            double dx = loc.X - pawn.Location.X;
-            double dy = loc.Y - pawn.Location.Y;
+            double dx = loc.X - pieces[index].Location.X;
+            double dy = loc.Y - pieces[index].Location.Y;
+            double slope = dy / dx;
 
             capIndex = 0;
-            if (Math.Abs(slope) == 1)
+            if (Math.Abs(slope) == 1 && Math.Abs(dx) == 1 && Math.Abs(dy) == 1)
             {
                 for (int i = 0; i < pieces.Length; i++)
                 {
-                    if (pieces[i].Location == loc && !pieces[i].Equals(pawn))
+                    if (pieces[i].Location == loc && !pieces[i].Equals(pieces[index]))
                     {
                         capIndex = i;
                         return true;

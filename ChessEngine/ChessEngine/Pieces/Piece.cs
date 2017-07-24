@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
@@ -71,6 +72,46 @@ namespace ChessEngine
         }
 
         public abstract bool IsValidMove(Point p);
+        public abstract List<Point> AttackedSquares(Piece[] pieces);
+
+        // Checks if the square is occupied by another piece
+        private bool checkBlock(Piece[] p, Point loc)
+        {
+            for (int j = 0; j < p.Length; j++)
+            {
+                if (p[j].Location == loc) return true;
+            }
+
+            return false;
+        }
+
+        // Finds all attacked squares in the vertical and horizontal directions
+        public List<Point> checkVHSquares(Piece[] p, int start, int end)
+        {
+            List<Point> squares = new List<Point>();
+            for (int i = start; i < end; i++)
+            {
+                Point loc = new Point(i, this.Location.Y);
+                bool blocked = checkBlock(p, loc);
+                if (!blocked) squares.Add(loc);
+            }
+
+            return squares;
+        }
+
+        // Finds all attacked squares in the positive diagonal direction 
+        public List<Point> checkDiagonalSquares(Piece[] p, int start, int end)
+        {
+            List<Point> squares = new List<Point>();
+            for (int i = start; i < end; i++)
+            {
+                Point loc = new Point(i, i);
+                bool blocked = checkBlock(p, loc);
+                if (!blocked) squares.Add(loc);
+            }
+
+            return squares;
+        }
 
         public static Point boardToPiece(Point p)
         {

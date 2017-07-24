@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
+﻿using System.Windows;
 
 namespace ChessEngine
 {
@@ -42,7 +36,7 @@ namespace ChessEngine
                 {
                     if (xError > 0 && yError > 0)
                     {
-                        return i;
+                        if(!piece[i].Captured) return i;
                     }
                 }
             }

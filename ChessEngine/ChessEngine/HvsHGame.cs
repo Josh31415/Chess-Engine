@@ -94,6 +94,7 @@ namespace ChessEngine
                     newLoc = Piece.boardToPiece(newLoc);
                     bool valid = piece[index].movePiece(newLoc);
                     bool nBlocked = Rules.checkPiecePath(piece[index], newLoc, piece);
+                    Console.WriteLine(valid + " " + nBlocked);
 
                     if (valid && nBlocked)
                     {
@@ -104,8 +105,7 @@ namespace ChessEngine
                         piece[index].Location = newLoc;
                         piece[index].Moved = true;
                         turn = !turn;
-                        //flipBoard();
-
+                        
                         pieceMove move;
                         move.piece = piece[index];
                         move.newLocation = newLoc;
@@ -122,7 +122,6 @@ namespace ChessEngine
 
                         if (check)
                         {
-                            Console.WriteLine(location);
                             Point rLoc = piece[location].Location;
                             if (rLoc.X - piece[index].Location.X < 0)
                             {
@@ -132,8 +131,7 @@ namespace ChessEngine
                             {
                                 rLoc.X = newLoc.X - 1;
                             }
-                            Console.WriteLine(rLoc);
-
+                           
                             pieceMove move;
                             move.piece = piece[index];
                             move.newLocation = newLoc;
@@ -151,11 +149,22 @@ namespace ChessEngine
                     }
                     else if (!valid && piece[index].GetType().Equals(typeof(Pawn)))
                     {
-                        bool pawnCap = Rules.CheckPawnCapture(newLoc, piece, piece[index], out int capIndex);
+                        bool pawnCap = Rules.CheckPawnCapture(newLoc, piece, index, out int capIndex);
 
                         if (pawnCap)
                         {
                             piece[capIndex].Captured = true;
+                            pieceMove move;
+
+                            move.piece = piece[index];
+                            move.newLocation = newLoc;
+                            move.capture = false;
+                            move.check = false;
+                            file.updatePgn(move);
+
+                            piece[index].Location = newLoc;
+                            turn = !turn;
+                            return true;
                         }
                     }
 
@@ -164,17 +173,6 @@ namespace ChessEngine
             }
 
             return false;
-        }
-
-        private void flipBoard()
-        {
-            for(int i = 0; i < 32; i++)
-            {
-                
-                double x = Math.Abs(7 - piece[i].Location.X);
-                double y = Math.Abs(7 - piece[i].Location.Y);
-                piece[i].Location = new Point(x, y);
-            }
         }
     }
 }

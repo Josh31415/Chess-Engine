@@ -29,9 +29,7 @@ namespace ChessEngine
             Console.WriteLine(dx);
             slope = dy / dx;
             Console.WriteLine(slope);
-            // if (dx != 0) 
-            //else if (dx == 0 && dy == 0) return false;
-
+            
             if (slope == 0.5 || slope == -0.5 || slope == 2 || slope == -2)
             {
                 if (dx < 3 && dy < 3) return true;
@@ -42,6 +40,23 @@ namespace ChessEngine
                 return false;
             }
             
+        }
+
+        override
+        public List<Point> AttackedSquares(Piece[] p)
+        {
+            List<Point> squares = new List<Point>();
+
+            if (Location.X + 1 < 8 && Location.Y + 2 < 8) squares.Add(new Point(Location.X + 1, Location.Y + 2));
+            if (Location.X + 1 < 8 && Location.Y - 2 >= 0) squares.Add(new Point(Location.X + 1, Location.Y - 2));
+            if (Location.X - 1 >= 0 && Location.Y + 2 < 8) squares.Add(new Point(Location.X - 1, Location.Y + 2));
+            if (Location.X - 1 >= 0 && Location.Y - 2 >= 0) squares.Add(new Point(Location.X - 1, Location.Y - 2));
+            if (Location.X + 1 < 8 && Location.Y + 2 < 8) squares.Add(new Point(Location.X + 2, Location.Y + 1));
+            if (Location.X + 1 < 8 && Location.Y - 2 >= 0) squares.Add(new Point(Location.X + 2, Location.Y - 1));
+            if (Location.X - 1 >= 0 && Location.Y + 2 < 8) squares.Add(new Point(Location.X - 2, Location.Y + 1));
+            if (Location.X - 1 >= 0 && Location.Y - 2 >= 8) squares.Add(new Point(Location.X - 2, Location.Y - 1));
+
+            return squares;
         }
 
     }
