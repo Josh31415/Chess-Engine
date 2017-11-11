@@ -7,15 +7,23 @@ using System.Windows;
 
 namespace ChessEngine
 {
+    struct Check
+    {
+        public bool isCheck;
+        public bool checkColor;
+    }
+
     class HvsHGame : IGame
     {
         private Piece[] piece = new Piece[32];
         private bool turn;
+        private Check check;
         GameFile file;
 
         public HvsHGame()
         {
             SetupBoard();
+            check.isCheck = false;
             file = new GameFile("../../pgns/temp.pgn");
         }
 
@@ -94,7 +102,13 @@ namespace ChessEngine
                     newLoc = Piece.boardToPiece(newLoc);
                     bool valid = piece[index].movePiece(newLoc);
                     bool nBlocked = Rules.checkPiecePath(piece[index], newLoc, piece);
-                    Console.WriteLine(valid + " " + nBlocked);
+
+                    if(check.isCheck && check.checkColor == turn)
+                    {
+                        Piece tempPiece = (Piece)piece[index].Clone();
+                        tempPiece.Location = newLoc;
+                        if (Rules.isCheck(piece, piece[index].AttackedSquares(piece), turn)) return false;
+                    }
 
                     if (valid && nBlocked)
                     {
@@ -104,13 +118,16 @@ namespace ChessEngine
                         }
                         piece[index].Location = newLoc;
                         piece[index].Moved = true;
+                        bool ischeck = Rules.isCheck(piece, piece[index].AttackedSquares(piece), turn);
+                        check.isCheck = ischeck;
+                        check.checkColor = turn;
                         turn = !turn;
                         
                         pieceMove move;
                         move.piece = piece[index];
                         move.newLocation = newLoc;
                         move.capture = piece[capIndex].Captured;
-                        move.check = false;
+                        move.check = ischeck;
                         file.updatePgn(move);
 
                         return true;
@@ -155,6 +172,10 @@ namespace ChessEngine
                         {
                             piece[capIndex].Captured = true;
                             pieceMove move;
+
+                            bool ischeck = Rules.isCheck(piece, piece[index].AttackedSquares(piece), turn);
+                            check.isCheck = ischeck;
+                            check.checkColor = turn;
 
                             move.piece = piece[index];
                             move.newLocation = newLoc;

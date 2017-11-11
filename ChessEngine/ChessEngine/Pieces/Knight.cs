@@ -24,11 +24,7 @@ namespace ChessEngine
             float slope = 0.0F;
             float dx = (float) (p.X - this.Location.X);
             float dy = (float)(p.Y - this.Location.Y);
-            Console.WriteLine(slope);
-            Console.WriteLine(dy);
-            Console.WriteLine(dx);
             slope = dy / dx;
-            Console.WriteLine(slope);
             
             if (slope == 0.5 || slope == -0.5 || slope == 2 || slope == -2)
             {

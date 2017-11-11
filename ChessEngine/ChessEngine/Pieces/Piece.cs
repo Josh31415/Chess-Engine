@@ -6,7 +6,7 @@ using System.Windows.Media.Imaging;
 
 namespace ChessEngine
 {
-    abstract class Piece
+    abstract class Piece : ICloneable
     {
         private bool color;
         private bool captured;
@@ -15,7 +15,6 @@ namespace ChessEngine
         private int pieceValue;
         private Point point;
         private Image pieceIm;
-
 
         public Piece(bool piececolor, string pieceid)
         {
@@ -73,7 +72,7 @@ namespace ChessEngine
 
         public abstract bool IsValidMove(Point p);
         public abstract List<Point> AttackedSquares(Piece[] pieces);
-
+        
         // Checks if the square is occupied by another piece
         private bool checkBlock(Piece[] p, Point loc)
         {
@@ -113,6 +112,7 @@ namespace ChessEngine
             return squares;
         }
 
+        // Converts pixel coordinates to 8x8 board grid
         public static Point boardToPiece(Point p)
         {
             Point finPoint;
@@ -177,6 +177,40 @@ namespace ChessEngine
             if (p.pieceValue != pieceValue) return false;
             if (p.point != point) return false;
             return true;
+        }
+
+        public object Clone()
+        {
+            Piece newPiece;
+            switch(this.GetType().FullName)
+            {
+                case "King":
+                    newPiece = new King(this.Color, this.Id);
+                    break;
+                case "Queen":
+                    newPiece = new Queen(this.Color, this.Id);
+                    break;
+                case "Rook":
+                    newPiece = new Rook(this.Color, this.Id);
+                    break;
+                case "Bishop":
+                    newPiece = new Bishop(this.Color, this.Id);
+                    break;
+                case "Knight":
+                    newPiece = new Knight(this.Color, this.Id);
+                    break;
+                case "Pawn":
+                    newPiece = new Pawn(this.Color, this.Id);
+                    break;
+                default:
+                    return null;
+            }
+
+            newPiece.Location = this.Location;
+            newPiece.Moved = this.Moved;
+            newPiece.Captured = this.Captured;
+
+            return newPiece;
         }
     }
 }

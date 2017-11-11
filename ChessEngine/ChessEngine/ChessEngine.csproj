@@ -59,7 +59,6 @@
     <Compile Include="GameFile.cs" />
     <Compile Include="HvsHGame.cs" />
     <Compile Include="IGame.cs" />
-    <Compile Include="IMovable.cs" />
     <Compile Include="Pieces\King.cs" />
     <Compile Include="Pieces\Queen.cs" />
     <Compile Include="Pieces\Rook.cs" />
