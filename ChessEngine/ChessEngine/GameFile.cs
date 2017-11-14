@@ -4,14 +4,6 @@ using System.Windows;
 
 namespace ChessEngine
 {
-    struct pieceMove
-    {
-        public Piece piece;
-        public bool check;
-        public bool capture;
-        public Point newLocation;
-    }
-
     class GameFile
     {
         private String filePath;

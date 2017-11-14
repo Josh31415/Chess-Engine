@@ -1,19 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 
 namespace ChessEngine
 {
-    struct Check
-    {
-        public bool isCheck;
-        public bool checkColor;
-    }
-
-    class HvsHGame : IGame
+    class HvsHGame : Game, IGame
     {
         private Piece[] piece = new Piece[32];
         private bool turn;
