@@ -56,6 +56,9 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Board.cs" />
+    <Compile Include="CvsHGame.cs" />
+    <Compile Include="dataTypes.cs" />
+    <Compile Include="Game.cs" />
     <Compile Include="GameFile.cs" />
     <Compile Include="HvsHGame.cs" />
     <Compile Include="IGame.cs" />
