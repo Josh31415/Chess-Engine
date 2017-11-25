@@ -45,6 +45,12 @@ namespace ChessEngine
             squares.Add(new Point(Location.X - 1, Location.Y + 1));
             squares.Add(new Point(Location.X + 1, Location.Y - 1));
 
+            for (int i = 0; i < squares.Count; i++)
+            {
+                Point pt = squares.ElementAt(i);
+                if (checkBlock(p, boardToPiece(pt))) squares.Remove(pt);
+            }
+
             return squares;
         }
     }

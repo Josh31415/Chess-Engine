@@ -61,6 +61,12 @@ namespace ChessEngine
                 if (Location.X - 1 >= 0 && Location.Y + 1 < 8) squares.Add(new Point(Location.X - 1, Location.Y + 1));
                 if (Location.X + 1 >= 0 && Location.Y + 1 < 8) squares.Add(new Point(Location.X + 1, Location.Y + 1));
             }
+              
+            for(int i = 0; i < squares.Count; i++)
+            {
+                Point pt = squares.ElementAt(i);
+                if (checkBlock(p, boardToPiece(pt))) squares.Remove(pt);
+            }
 
             return squares;
         }

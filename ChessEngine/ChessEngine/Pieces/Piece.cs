@@ -74,7 +74,7 @@ namespace ChessEngine
         public abstract List<Point> AttackedSquares(Piece[] pieces);
         
         // Checks if the square is occupied by another piece
-        private bool checkBlock(Piece[] p, Point loc)
+        public bool checkBlock(Piece[] p, Point loc)
         {
             for (int j = 0; j < p.Length; j++)
             {
