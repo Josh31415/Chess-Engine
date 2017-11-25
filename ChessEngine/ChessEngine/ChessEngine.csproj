@@ -37,6 +37,9 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.ValueTuple, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.4.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -56,12 +59,15 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Board.cs" />
+    <Compile Include="BoardAnalysis.cs" />
     <Compile Include="CvsHGame.cs" />
     <Compile Include="dataTypes.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="GameFile.cs" />
     <Compile Include="HvsHGame.cs" />
     <Compile Include="IGame.cs" />
+    <Compile Include="MoveNode.cs" />
+    <Compile Include="MoveTree.cs" />
     <Compile Include="Pieces\King.cs" />
     <Compile Include="Pieces\Queen.cs" />
     <Compile Include="Pieces\Rook.cs" />
@@ -101,6 +107,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="packages.config" />
     <None Include="pgns\temp.pgn" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -112,18 +119,18 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="bishop-black.png" />
-    <Resource Include="bishop-white.png" />
-    <Resource Include="king-black.png" />
-    <Resource Include="king-white.png" />
-    <Resource Include="knight-black.png" />
-    <Resource Include="knight-white.png" />
-    <Resource Include="pawn-black.png" />
-    <Resource Include="pawn-white.png" />
-    <Resource Include="queen-black.png" />
-    <Resource Include="queen-white.png" />
-    <Resource Include="rook-black.png" />
-    <Resource Include="rook-white.png" />
+    <Resource Include="PieceImages\bishop-black.png" />
+    <Resource Include="PieceImages\bishop-white.png" />
+    <Resource Include="PieceImages\king-black.png" />
+    <Resource Include="PieceImages\king-white.png" />
+    <Resource Include="PieceImages\knight-black.png" />
+    <Resource Include="PieceImages\knight-white.png" />
+    <Resource Include="PieceImages\pawn-black.png" />
+    <Resource Include="PieceImages\pawn-white.png" />
+    <Resource Include="PieceImages\queen-black.png" />
+    <Resource Include="PieceImages\queen-white.png" />
+    <Resource Include="PieceImages\rook-black.png" />
+    <Resource Include="PieceImages\rook-white.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="chessboard2.png" />

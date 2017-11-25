@@ -15,4 +15,11 @@ namespace ChessEngine
         public bool capture;
         public Point newLocation;
     }
+
+    struct BoardEvaluation
+    {
+        public float gameValue;
+        public int pieceValueDiff;
+        public float[][] squareValues;
+    }
 }

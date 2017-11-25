@@ -131,7 +131,7 @@ namespace ChessEngine
             if (Color) pieceColor = "white";
             else pieceColor = "black";
 
-            string im = type + "-" + pieceColor + ".png";
+            string im = "PieceImages/" + type + "-" + pieceColor + ".png";
             Image tempIm = createPiece(im);
             tempIm.AllowDrop = true;
 
