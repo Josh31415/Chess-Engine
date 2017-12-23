@@ -22,4 +22,10 @@ namespace ChessEngine
         public int pieceValueDiff;
         public float[][] squareValues;
     }
+
+    struct ConditionalMove
+    {
+        public int moveNum;
+        public pieceMove moveOrder;
+    }
 }
