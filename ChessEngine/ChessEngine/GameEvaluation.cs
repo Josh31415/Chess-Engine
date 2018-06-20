@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Windows;
 
 namespace ChessEngine
@@ -21,6 +23,54 @@ namespace ChessEngine
             }
 
             return (wVal, bVal);
+        }
+
+        // Gets the list of all posible moves in a for a given set of pieces then returns a selection of them
+        public static PieceMove[] getMoveList(int size, Piece[] pieces)
+        {
+            List<PieceMove> moves = new List<PieceMove>();
+
+            // Find all possible moves
+            for (int i = 0; i < pieces.Length; i++)
+            {
+                if(!pieces[i].Captured)
+                {
+                    Point[] pt = pieces[i].AttackedSquares(pieces).ToArray();
+
+                    for(int j = 0; j < pt.Length; j++)
+                    {
+                        PieceMove move = new PieceMove();
+
+                        move.piece = pieces[i];
+                        move.check = false;
+                        move.newLocation = pt[j];
+                        move.capture = false;
+
+                        moves.Add(move);
+                    }
+                }
+            }
+
+            int movesSize = moves.Count;
+            
+            // returns all the moves if the less are found than the number requested
+            if(movesSize <= size) return moves.ToArray();
+           
+            PieceMove[] selectedMoves = new PieceMove[size];
+
+            // Randomly selects moves to return assuming too many moves where found
+            for (int i = 0; i < size; i++)
+            {
+                Random random = new Random();
+                int sel = random.Next(0, movesSize - i);
+
+                PieceMove[] movesArr = moves.ToArray();
+                selectedMoves[i] = movesArr[sel];
+                moves.RemoveAt(sel);
+            }
+
+            Console.WriteLine(moves);
+            return selectedMoves;
         }
 
         private static float getAttackValue(Piece[] Pieces, List<Point> attackedSq, Piece p)
@@ -56,6 +106,7 @@ namespace ChessEngine
             return value;
         }
 
+        // Gets the evaluation for the board in the current position
         public static float getBoardEvaluation(Piece[] Pieces,  Check check)
         {
             (int whiteValue, int blackValue) = getPlayerValues(Pieces);
@@ -76,10 +127,12 @@ namespace ChessEngine
                 else totalValue -= totalValue * (float)0.5;
             }
 
+            Console.WriteLine(totalValue);
+
             return totalValue;
         }
 
-        // gets integer values for each square on the board
+        // gets pawn values for each square on the board
         public static int[][] getSquareValues(Piece[] Pieces)
         {
             int[][] squareVal = new int[8][];

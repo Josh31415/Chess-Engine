@@ -1,12 +1,15 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 
 namespace ChessEngine
 {
     abstract class Game
     {
         private Piece[] piece = new Piece[32];
-        private bool turn;
         private Check check;
+
+        public bool turn;
+
         GameFile file;
 
         public Piece[] getPieces()
@@ -84,7 +87,7 @@ namespace ChessEngine
             // Adds the black pawns to the board
             for (int i = 8; i < 16; i++) piece[i].Location = new Point(i - 8, 1);
 
-            // Adds the white home row to the board
+             // Adds the white home row to the board
             for (int i = 16; i < 24; i++) piece[i].Location = new Point(i - 16, 7);
 
             // Adds the White pawns to the board
@@ -93,6 +96,8 @@ namespace ChessEngine
 
         public bool CheckMove(Point position, int index)
         {
+            Console.WriteLine(turn);
+
             if (index != -1)
             {
                 if (piece[index].Color == turn)
@@ -121,12 +126,12 @@ namespace ChessEngine
                         check.isCheck = ischeck;
                         check.checkColor = turn;
 
-                        pieceMove move;
+                        PieceMove move;
                         move.piece = piece[index];
                         move.newLocation = newLoc;
                         move.capture = piece[capIndex].Captured;
                         move.check = ischeck;
-                        file.updatePgn(move);
+                        //file.updatePgn(move);
 
                         return true;
                     }
@@ -147,7 +152,7 @@ namespace ChessEngine
                                 rLoc.X = newLoc.X - 1;
                             }
 
-                            pieceMove move;
+                            PieceMove move;
                             move.piece = piece[index];
                             move.newLocation = newLoc;
                             move.capture = false;
@@ -169,7 +174,7 @@ namespace ChessEngine
                         if (pawnCap)
                         {
                             piece[capIndex].Captured = true;
-                            pieceMove move;
+                            PieceMove move;
 
                             bool ischeck = Rules.isCheck(piece, piece[index].AttackedSquares(piece), turn);
                             check.isCheck = ischeck;
@@ -188,10 +193,17 @@ namespace ChessEngine
                     }
 
                     index = -1;
+                    NextTurn();
                 }
             }
 
             return false;
+        }
+
+        public bool NextTurn()
+        {
+            turn = !turn;
+            return true;
         }
     }
 }

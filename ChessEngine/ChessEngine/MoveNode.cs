@@ -4,18 +4,18 @@ namespace ChessEngine
 {
     class MoveNode
     {
-        private pieceMove data;
+        private PieceMove data;
         private MoveNode parent;
         private List<MoveNode> childNodes;
 
-        public MoveNode(MoveNode parent, pieceMove data, List<MoveNode> children)
+        public MoveNode(MoveNode parent, PieceMove data, List<MoveNode> children)
         {
             this.parent = parent;
             this.data = data;
             this.childNodes = children;
         }
 
-        public pieceMove Data
+        public PieceMove Data
         {
             get { return data; }
             set { data = value; }

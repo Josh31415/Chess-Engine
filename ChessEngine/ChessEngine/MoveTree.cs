@@ -8,7 +8,7 @@ namespace ChessEngine
         MoveNode currNode;
         int depth;
 
-        public MoveTree(pieceMove headData)
+        public MoveTree(PieceMove headData)
         {
             head = new MoveNode(null, headData, null);
             depth = 0;
@@ -20,7 +20,7 @@ namespace ChessEngine
             set { depth = value; }
         }
 
-        public void addLevel(MoveNode parent, pieceMove[] data)
+        public void addLevel(MoveNode parent, PieceMove[] data)
         {
             for(int i = 0; i < data.Length; i++)
             {
@@ -30,7 +30,7 @@ namespace ChessEngine
             depth++;
         }
 
-        public void addCurrChildren(pieceMove[] data)
+        public void addCurrChildren(PieceMove[] data)
         {
             for (int i = 0; i < data.Length; i++)
             {

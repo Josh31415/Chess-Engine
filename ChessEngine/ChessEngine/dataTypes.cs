@@ -8,7 +8,7 @@ namespace ChessEngine
         public bool checkColor;
     }
 
-    struct pieceMove
+    struct PieceMove
     {
         public Piece piece;
         public bool check;
@@ -26,6 +26,6 @@ namespace ChessEngine
     struct ConditionalMove
     {
         public int moveNum;
-        public pieceMove moveOrder;
+        public PieceMove moveOrder;
     }
 }

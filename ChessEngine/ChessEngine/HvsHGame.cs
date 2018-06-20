@@ -1,11 +1,8 @@
-﻿using System.Windows;
-
-namespace ChessEngine
+﻿namespace ChessEngine
 {
     class HvsHGame : Game, IGame
     {
         private Piece[] piece = new Piece[32];
-        private bool turn;
         private Check check;
         GameFile file;
 
@@ -14,12 +11,6 @@ namespace ChessEngine
             SetupBoard();
             check.isCheck = false;
             file = new GameFile("../../pgns/temp.pgn");
-        }
-
-        public bool NextTurn()
-        {
-            turn = !turn;
-            return true;
         }
     }
 }

@@ -67,28 +67,28 @@ namespace ChessEngine
             return symbol;
         }
 
-        private String getNormalMove(pieceMove p)
+        private String getNormalMove(PieceMove p)
         {
             string move = moveLocation(p.newLocation);
             string symbol = pieceSymbol(p.piece);
             return symbol + move + " ";
         }
 
-        private String getCaptureMove(pieceMove p)
+        private String getCaptureMove(PieceMove p)
         {
             string move = moveLocation(p.newLocation);
             string symbol = pieceSymbol(p.piece);
             return symbol + "x" + move;
         }
 
-        private String getPgnValue(pieceMove p)
+        private String getPgnValue(PieceMove p)
         {
             if (p.capture) return getCaptureMove(p);
             else if (p.check) return "O-O ";
             else return getNormalMove(p);
         }
 
-        public void updatePgn(pieceMove p)
+        public void updatePgn(PieceMove p)
         {
             String move = getPgnValue(p);
             using (StreamWriter writer = File.AppendText(filePath))
@@ -107,7 +107,7 @@ namespace ChessEngine
         }
 
         // Not finished
-        public pieceMove[] readPgn(string path)
+        public PieceMove[] readPgn(string path)
         {
 
             using (TextReader tr = new StreamReader(new FileStream(path, FileMode.Open)))

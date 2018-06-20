@@ -139,10 +139,16 @@
     <Resource Include="OldCode.txt" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="resources\openings.json" />
     <Content Include="Sounds\chessPieceSound.wav" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties resources_4openings_1json__JSONSchema="http://json.schemastore.org/component" />
+    </VisualStudio>
+  </ProjectExtensions>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
