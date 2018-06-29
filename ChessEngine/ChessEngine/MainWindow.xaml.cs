@@ -15,15 +15,13 @@ namespace ChessEngine
     public partial class MainWindow : Window
     {
         private int index;
-        int angle = 180;
+        private int angle = 180;
         Board board;
         IGame game;
         private SoundPlayer startSoundPlayer = new System.Media.SoundPlayer("../../Sounds/chessPieceSound.wav");
 
         public void setupGame()
         {
-            game = new HvsHGame();
-            
             for(int i = 0; i < 32; i++)
             {
                 Point p = board.toBoardCorrdinates(game.Pieces[i].Location);
@@ -36,6 +34,7 @@ namespace ChessEngine
         public MainWindow()
         {
             InitializeComponent();
+            game = new CvsHGame();
             board = new Board((int)ChessBoard.Width);
             setupGame();
             GameFile file = new GameFile("../../pgns/temp.pgn");
@@ -93,7 +92,6 @@ namespace ChessEngine
                         Canvas.SetTop(game.Pieces[i].PieceImage, p.Y);
                         if(valid) game.Pieces[i].PieceImage.LayoutTransform = transform;
                     }
-
                 }
 
                 if (valid)
@@ -104,17 +102,21 @@ namespace ChessEngine
                     else angle = 180;
                 }
             }
-            
         }
 
         private void StartGame_Click(object sender, RoutedEventArgs e)
         {
-            if(GameSelect.SelectedValue.ToString() == "Player vs Player")
+            Console.WriteLine(GameSelect.SelectedIndex);
+            if (GameSelect.SelectedIndex == 0)
             {
                 game = new HvsHGame();
+                setupGame();
             }
-
-            Console.WriteLine(GameSelect.SelectedValue);
+            else if (GameSelect.SelectedIndex == 1)
+            {
+                game = new CvsHGame();
+                setupGame();
+            }
         }
 
         private void GameSelect_SelectionChanged(object sender, SelectionChangedEventArgs e)

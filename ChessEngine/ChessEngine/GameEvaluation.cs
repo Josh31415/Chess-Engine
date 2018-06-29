@@ -154,5 +154,25 @@ namespace ChessEngine
 
             return squareVal;
         }
+
+        public static PieceMove findBestMove(bool turn, MoveTree tree)
+        {
+            for(int i = 0; i < tree.Depth; i++)
+            {
+                MoveNode[] children = (MoveNode[]) tree.getNextLevel().ToArray();
+
+                for (int j = 0; j < children.Length; j++)
+                {
+                    Check ch = new Check();
+                    ch.checkColor = turn;
+                    ch.isCheck = children[i].Data.check;
+                    GameEvaluation.getBoardEvaluation(children[i].Data.Pieces, ch);
+                }
+
+                turn = !turn;
+            }
+
+            return new PieceMove();
+        }
     }
 }

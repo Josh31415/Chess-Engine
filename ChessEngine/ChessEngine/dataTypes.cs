@@ -13,6 +13,7 @@ namespace ChessEngine
         public Piece piece;
         public bool check;
         public bool capture;
+        public Piece[] Pieces;
         public Point newLocation;
     }
 

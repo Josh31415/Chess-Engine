@@ -7,6 +7,15 @@ namespace ChessEngine
         MoveNode head;
         MoveNode currNode;
         int depth;
+        int width;
+
+        public MoveTree(MoveNode head, int depth, int width)
+        {
+            this.head = head;
+            this.currNode = head;
+            this.depth = depth;
+            this.width = width;
+        }
 
         public MoveTree(PieceMove headData)
         {
@@ -15,6 +24,12 @@ namespace ChessEngine
         }
 
         public int Depth
+        {
+            get { return depth; }
+            set { depth = value; }
+        }
+
+        public int Width
         {
             get { return depth; }
             set { depth = value; }
